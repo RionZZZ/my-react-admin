@@ -1,3 +1,4 @@
+import { useTitle } from "@/hooks/useTitle";
 import { useAppDispatch } from "@/store";
 import { setToken } from "@/store/modules/user";
 import { Button } from "antd";
@@ -5,6 +6,7 @@ import { FC } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const LoginPage: FC = () => {
+  useTitle();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 

@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+// import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "normalize.css";
@@ -8,7 +8,7 @@ import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+  // <StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <ThemeProvider themeMode="light">
@@ -16,5 +16,5 @@ createRoot(document.getElementById("root")!).render(
         </ThemeProvider>
       </PersistGate>
     </Provider>
-  </StrictMode>
+  // </StrictMode>
 );

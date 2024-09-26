@@ -8,8 +8,9 @@ const allRoutes = import.meta.glob("./routes/*.tsx", {
 const routeList: SelfRouteObject[] = [];
 
 Object.keys(allRoutes).forEach((key: string) => {
-  const module = allRoutes[key].default || {};
-  routeList.push(module);
+  const module = (allRoutes[key].default as SelfRouteObject) || {};
+  const moduleList = Array.isArray(module) ? [...module] : [module];
+  routeList.push(...moduleList);
 });
 
 const routers: SelfRouteObject[] = [
