@@ -22,7 +22,9 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@type/*": ["src/types/*"],
+      "@image/*": ["src/assets/images/*"]
     }
   },
   "include": ["src", "typings"]

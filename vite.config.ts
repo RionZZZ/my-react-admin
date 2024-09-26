@@ -8,6 +8,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": resolve(__dirname, "./src"),
+      "@type": resolve(__dirname, "./src/types"),
+      "@image": resolve(__dirname, "./src/assets/images"),
     },
   },
 });

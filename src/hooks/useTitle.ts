@@ -8,7 +8,7 @@ export const useTitle = () => {
   const [title, setTitle] = useState("AMS");
   const { pathname } = useLocation();
   useEffect(() => {
-  const route = searchRoute(pathname, routeList);
+    const route = searchRoute(pathname, routeList);
     setTitle(`AMS-${route?.meta?.title as string}`);
   }, [pathname]);
 

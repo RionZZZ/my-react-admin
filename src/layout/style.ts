@@ -15,6 +15,7 @@ export default createStyles(({ token }) => ({
     fontSize: "16px",
     margin: 0,
     lineHeight: "64px",
+    backgroundColor: "#112342",
   },
   headerWrapper: {
     backgroundColor: token.colorBgContainer,

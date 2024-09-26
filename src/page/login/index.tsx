@@ -1,28 +1,78 @@
 import { useTitle } from "@/hooks/useTitle";
 import { useAppDispatch } from "@/store";
 import { setToken } from "@/store/modules/user";
-import { Button } from "antd";
+import { Button, Form, FormProps, Input, Space } from "antd";
 import { FC } from "react";
+import useStyles from "./style";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { LoginField } from "@type/login";
+import AppConfig from "@/config/app";
+import { useBoolean } from "ahooks";
 
 const LoginPage: FC = () => {
   useTitle();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
+  const { styles } = useStyles();
+
   const dispatch = useAppDispatch();
 
-  const fetchToken = () => {
-    dispatch(setToken("123123123"));
+  const [loading, { setTrue: setLoadingTrue, setFalse: setLoadingFalse }] =
+    useBoolean(false);
+  const handleLogin: FormProps<LoginField>["onFinish"] = (values) => {
+    console.log("Success:", values);
+    setLoadingTrue();
+    setTimeout(() => {
+      setLoadingFalse();
+      dispatch(setToken("123123123"));
+      const redirect = searchParams.get("redirect");
+      navigate(redirect || "/home");
+    }, 2000);
   };
-  const login = () => {
-    const redirect = searchParams.get("redirect");
-    navigate(redirect || "/home");
-  };
+
   return (
-    <div>
-      <Button onClick={fetchToken}>set token</Button>
-      <Button onClick={login}>Home</Button>
+    <div className={styles.login}>
+      <div className={styles.loginWrapper}>
+        <div className={styles.loginImage}></div>
+        <div className={styles.loginContent}>
+          <div className={styles.loginTitle}>您好</div>
+          <div className={styles.loginSubTitle}>欢迎使用固定资产管理系统</div>
+          <Form
+            className={styles.loginForm}
+            layout="vertical"
+            onFinish={handleLogin}
+          >
+            <Form.Item<LoginField>
+              label="账号"
+              name="userName"
+              rules={[{ required: true, message: "请输入账号！" }]}
+            >
+              <Input placeholder="请输入账号" />
+            </Form.Item>
+            <Form.Item<LoginField>
+              label="密码"
+              name="password"
+              rules={[{ required: true, message: "请输入密码！" }]}
+            >
+              <Input.Password placeholder="请输入密码" />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" block loading={loading}>
+                立即登录
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Space className={styles.versionSpace} align="center">
+                版本号：
+                <span className={styles.loginVersion}>
+                  {AppConfig.appVersion}
+                </span>
+              </Space>
+            </Form.Item>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };
