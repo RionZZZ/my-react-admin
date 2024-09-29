@@ -23,7 +23,7 @@ const routers: SelfRouteObject[] = [
   {
     path: "*",
     name: "Redirect",
-    element: <Navigate to="/home" replace />,
+    element: <Navigate to="/exception/404" />,
   },
 ];
 
