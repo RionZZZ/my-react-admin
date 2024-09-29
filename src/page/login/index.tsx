@@ -1,7 +1,7 @@
 import { useTitle } from "@/hooks/useTitle";
 import { useAppDispatch } from "@/store";
 import { setToken } from "@/store/modules/user";
-import { Button, Form, FormProps, Input, Space } from "antd";
+import { Button, Card, Form, FormProps, Input, Space } from "antd";
 import { FC } from "react";
 import useStyles from "./style";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -33,46 +33,53 @@ const LoginPage: FC = () => {
 
   return (
     <div className={styles.login}>
-      <div className={styles.loginWrapper}>
-        <div className={styles.loginImage}></div>
-        <div className={styles.loginContent}>
-          <div className={styles.loginTitle}>您好</div>
-          <div className={styles.loginSubTitle}>欢迎使用固定资产管理系统</div>
-          <Form
-            className={styles.loginForm}
-            layout="vertical"
-            onFinish={handleLogin}
-          >
-            <Form.Item<LoginField>
-              label="账号"
-              name="userName"
-              rules={[{ required: true, message: "请输入账号！" }]}
+      <Card bordered={false} style={{ padding: 0 }}>
+        <div className={styles.loginWrapper}>
+          <div className={styles.loginImage}></div>
+          <div className={styles.loginContent}>
+            <div className={styles.loginTitle}>您好</div>
+            <div className={styles.loginSubTitle}>欢迎使用固定资产管理系统</div>
+            <Form
+              className={styles.loginForm}
+              layout="vertical"
+              onFinish={handleLogin}
             >
-              <Input placeholder="请输入账号" />
-            </Form.Item>
-            <Form.Item<LoginField>
-              label="密码"
-              name="password"
-              rules={[{ required: true, message: "请输入密码！" }]}
-            >
-              <Input.Password placeholder="请输入密码" />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" block loading={loading}>
-                立即登录
-              </Button>
-            </Form.Item>
-            <Form.Item>
-              <Space className={styles.versionSpace} align="center">
-                版本号：
-                <span className={styles.loginVersion}>
-                  {AppConfig.appVersion}
-                </span>
-              </Space>
-            </Form.Item>
-          </Form>
+              <Form.Item<LoginField>
+                label="账号"
+                name="userName"
+                rules={[{ required: true, message: "请输入账号！" }]}
+              >
+                <Input placeholder="请输入账号" />
+              </Form.Item>
+              <Form.Item<LoginField>
+                label="密码"
+                name="password"
+                rules={[{ required: true, message: "请输入密码！" }]}
+              >
+                <Input.Password placeholder="请输入密码" />
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  block
+                  loading={loading}
+                >
+                  立即登录
+                </Button>
+              </Form.Item>
+              <Form.Item>
+                <Space className={styles.versionSpace} align="center">
+                  版本号：
+                  <span className={styles.loginVersion}>
+                    {AppConfig.appVersion}
+                  </span>
+                </Space>
+              </Form.Item>
+            </Form>
+          </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 };
