@@ -1,6 +1,5 @@
 import { createStyles } from "antd-style";
 import Bg from "@image/login/bg.png";
-import People from "@image/login/people.png";
 
 export default createStyles(({ token }) => ({
   login: {
@@ -12,34 +11,15 @@ export default createStyles(({ token }) => ({
     backgroundImage: `url('${Bg}')`,
     backgroundSize: "cover",
   },
-  loginWrapper: {
-    display: "flex",
-    height: "586px",
-    width: "1180px",
-    borderRadius: "8px",
-    backgroundColor: "#fff",
-    overflow: "hidden",
-  },
-  loginImage: {
-    flex: 1,
-    height: "100%",
-    backgroundImage: `url('${People}')`,
-  },
   loginContent: {
-    boxSizing: "border-box",
-    width: "590px",
-    padding: "110px 120px",
+    padding: "80px 100px",
+    minWidth: "400px",
+    textAlign: "center",
   },
   loginTitle: {
-    fontSize: "28px",
+    fontSize: "32px",
     color: token.colorPrimary,
     lineHeight: "40px",
-  },
-  loginSubTitle: {
-    marginTop: "8px",
-    fontSize: "20px",
-    color: token.colorText,
-    lineHeight: "28px",
   },
   loginForm: {
     marginTop: "40px",
