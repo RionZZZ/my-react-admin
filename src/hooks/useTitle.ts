@@ -9,7 +9,7 @@ export const useTitle = () => {
   const { pathname } = useLocation();
   useEffect(() => {
     const route = searchRoute(pathname, routeList);
-    setTitle(`AMS-${route?.meta?.title as string}`);
+    setTitle(`固定资产管理系统-${route?.meta?.title as string}`);
   }, [pathname]);
 
   usePageTitle(title);
