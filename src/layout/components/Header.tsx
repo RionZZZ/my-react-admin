@@ -24,7 +24,7 @@ const items: MenuProps["items"] = [
     key: "user",
   },
   {
-    label: "注销",
+    label: "退出登录",
     key: "logout",
   },
 ];
@@ -55,7 +55,7 @@ const Header: FC = () => {
   const handleLogout = () => {
     createConfirm({
       type: "info",
-      content: "确定注销？",
+      content: "确定退出登录？",
       onOk: () => {
         dispatch(resetUser());
         navigate("/login");

@@ -1,7 +1,7 @@
 import { useTitle } from "@/hooks/useTitle";
 import { useAppDispatch } from "@/store";
 import { setToken } from "@/store/modules/user";
-import { Button, Card, Form, FormProps, Input, Space } from "antd";
+import { Button, Form, FormProps, Input, Space } from "antd";
 import { FC } from "react";
 import useStyles from "./style";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -33,7 +33,8 @@ const LoginPage: FC = () => {
 
   return (
     <div className={styles.login}>
-      <Card bordered={false} style={{ padding: 0 }}>
+      <div className={styles.loginWrapper}>
+        <div className={styles.loginImage}></div>
         <div className={styles.loginContent}>
           <div className={styles.loginTitle}>固定资产管理系统</div>
           <Form
@@ -71,7 +72,7 @@ const LoginPage: FC = () => {
             </Form.Item>
           </Form>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };
