@@ -13,7 +13,7 @@ import useStyles from "../style";
 import { UserOutlined } from "@ant-design/icons";
 import { useMessage } from "@/hooks/useMessage";
 import { useAppDispatch } from "@/store";
-import { logout } from "@/store/modules/user";
+import { resetUser } from "@/store/modules/user";
 
 const { Header: AntdHeader } = Layout;
 
@@ -54,7 +54,7 @@ const Header: FC = () => {
       type: "info",
       content: "确定退出登录？",
       onOk: () => {
-        dispatch(logout());
+        dispatch(resetUser());
       },
     });
   };

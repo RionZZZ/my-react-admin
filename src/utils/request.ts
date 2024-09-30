@@ -7,7 +7,7 @@ import { appConfig } from "@/config";
 import qs from "qs";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { useMessage } from "@/hooks/useMessage";
-import { logout } from "@/store/modules/user";
+import { resetUser } from "@/store/modules/user";
 
 const defaultConfig: AxiosRequestConfig = {
   timeout: appConfig.requestTimeout,
@@ -66,7 +66,7 @@ class _Http {
           createMessage.error(res.data.msg);
           if (code === 401) {
             const dispatch = useAppDispatch();
-            dispatch(logout());
+            dispatch(resetUser());
           }
         }
         return res.data;

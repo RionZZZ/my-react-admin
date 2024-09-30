@@ -10,7 +10,7 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserInfo: (state, { payload }: { payload: UserInfo }) => {
+    setUserInfo: (state, { payload }: { payload: UserInfo | null }) => {
       state.userInfo = payload;
     },
     setToken: (state, { payload }: { payload: UserState["token"] }) => {
@@ -19,12 +19,8 @@ const userSlice = createSlice({
     resetUser: () => {
       return { ...initialState };
     },
-    logout: () => {
-      resetUser();
-      location.href = "/login";
-    },
   },
 });
 
-export const { setUserInfo, setToken, resetUser, logout } = userSlice.actions;
+export const { setUserInfo, setToken, resetUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,38 +1,38 @@
 import { useTitle } from "@/hooks/useTitle";
-import { persistor, useAppDispatch } from "@/store";
-import { setToken } from "@/store/modules/user";
+import { useAppDispatch } from "@/store";
+import { setToken, setUserInfo } from "@/store/modules/user";
 import { Button, Form, FormProps, Input, Space } from "antd";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import useStyles from "./style";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { LoginField } from "@type/user";
+import { LoginField, UserState } from "@type/user";
 import { appConfig } from "@/config";
-import { useBoolean } from "ahooks";
+import { useRequest } from "ahooks";
+import { UserApi } from "@/service";
+import { Result } from "@/types/http";
 
 const LoginPage: FC = () => {
   useTitle();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    persistor.purge();
-  }, []);
-
   const { styles } = useStyles();
 
   const dispatch = useAppDispatch();
 
-  const [loading, { setTrue: setLoadingTrue, setFalse: setLoadingFalse }] =
-    useBoolean(false);
-  const handleLogin: FormProps<LoginField>["onFinish"] = (values) => {
-    console.log("Success:", values);
-    setLoadingTrue();
-    setTimeout(() => {
-      setLoadingFalse();
-      dispatch(setToken("123123123"));
+  const { loading, run } = useRequest(UserApi.login, {
+    manual: true,
+    onSuccess: (res: Result<UserState>) => {
+      console.log(res);
+      dispatch(setToken(res.obj.token));
+      dispatch(setUserInfo(res.obj.userInfo));
       const redirect = searchParams.get("redirect");
       navigate(redirect || "/home");
-    }, 2000);
+    },
+  });
+
+  const handleLogin: FormProps<LoginField>["onFinish"] = (values) => {
+    run(values);
   };
 
   return (
