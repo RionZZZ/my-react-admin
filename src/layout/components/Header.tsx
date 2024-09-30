@@ -13,8 +13,7 @@ import useStyles from "../style";
 import { UserOutlined } from "@ant-design/icons";
 import { useMessage } from "@/hooks/useMessage";
 import { useAppDispatch } from "@/store";
-import { useNavigate } from "react-router-dom";
-import { resetUser } from "@/store/modules/user";
+import { logout } from "@/store/modules/user";
 
 const { Header: AntdHeader } = Layout;
 
@@ -32,8 +31,6 @@ const items: MenuProps["items"] = [
 const Header: FC = () => {
   const { styles } = useStyles();
   const { createConfirm, createMessage } = useMessage();
-
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -57,8 +54,7 @@ const Header: FC = () => {
       type: "info",
       content: "确定退出登录？",
       onOk: () => {
-        dispatch(resetUser());
-        navigate("/login");
+        dispatch(logout());
       },
     });
   };

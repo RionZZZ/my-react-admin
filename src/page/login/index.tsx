@@ -1,18 +1,22 @@
 import { useTitle } from "@/hooks/useTitle";
-import { useAppDispatch } from "@/store";
+import { persistor, useAppDispatch } from "@/store";
 import { setToken } from "@/store/modules/user";
 import { Button, Form, FormProps, Input, Space } from "antd";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import useStyles from "./style";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { LoginField } from "@type/login";
-import AppConfig from "@/config/app";
+import { LoginField } from "@type/user";
+import { appConfig } from "@/config";
 import { useBoolean } from "ahooks";
 
 const LoginPage: FC = () => {
   useTitle();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    persistor.purge();
+  }, []);
 
   const { styles } = useStyles();
 
@@ -66,7 +70,7 @@ const LoginPage: FC = () => {
               <Space className={styles.versionSpace} align="center">
                 版本号：
                 <span className={styles.loginVersion}>
-                  {AppConfig.appVersion}
+                  {appConfig.appVersion}
                 </span>
               </Space>
             </Form.Item>
