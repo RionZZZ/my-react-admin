@@ -44,11 +44,11 @@ const LoginPage: FC = () => {
             onFinish={handleLogin}
           >
             <Form.Item<LoginField>
-              label="账号"
+              label="用户名"
               name="userName"
-              rules={[{ required: true, message: "请输入账号！" }]}
+              rules={[{ required: true, message: "请输入用户名！" }]}
             >
-              <Input placeholder="请输入账号" />
+              <Input placeholder="请输入用户名" />
             </Form.Item>
             <Form.Item<LoginField>
               label="密码"

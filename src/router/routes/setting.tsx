@@ -9,6 +9,7 @@ const SettingRoute: SelfRouteObject = {
   meta: {
     title: "设置",
     orderNo: 3,
+    icon: "BankOutlined",
   },
   children: [
     {

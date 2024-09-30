@@ -10,6 +10,7 @@ const HomeRoute: SelfRouteObject = {
     title: "首页",
     orderNo: 1,
     hideChildMenu: true,
+    icon: "BankOutlined",
   },
   children: [
     {

@@ -1,9 +1,17 @@
-import { FC, ReactNode, useEffect, useState } from "react";
+import {
+  createElement,
+  FC,
+  FunctionComponent,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { Layout, Menu, MenuProps } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { routeList } from "@/router";
 import { SelfRouteObject } from "@/router/types";
 import useStyles from "../style";
+import * as Icon from "@ant-design/icons";
 
 const { Sider } = Layout;
 
@@ -11,12 +19,18 @@ type MenuItem = Required<MenuProps>["items"][number];
 const formatMenuItem = (
   label: ReactNode,
   key: string,
+  icon?: string,
   children?: MenuItem[]
 ): MenuItem =>
   ({
     label,
     key,
     children,
+    icon: icon
+      ? createElement(
+          Icon[icon as keyof typeof Icon] as FunctionComponent<unknown>
+        )
+      : null,
   } as MenuItem);
 
 const getOpenKey = (path: string) => {
@@ -62,12 +76,15 @@ const Aside: FC = () => {
     routes.map((route) => {
       if (!route.meta?.hideMenu) {
         if (!route.children?.length) {
-          list.push(formatMenuItem(route.meta?.title, route.path!));
+          list.push(
+            formatMenuItem(route.meta?.title, route.path!, route.meta?.icon)
+          );
         } else {
           list.push(
             formatMenuItem(
               route.meta?.title,
               route.path!,
+              route.meta?.icon,
               formatMenu(route.children)
             )
           );

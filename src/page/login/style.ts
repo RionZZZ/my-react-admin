@@ -29,13 +29,12 @@ export default createStyles(({ token }) => ({
     boxSizing: "border-box",
     width: "590px",
     padding: "110px 120px",
-    textAlign: "center",
   },
-
   loginTitle: {
     fontSize: "32px",
     color: token.colorPrimary,
     lineHeight: "40px",
+    textAlign: "center",
   },
   loginForm: {
     marginTop: "40px",
