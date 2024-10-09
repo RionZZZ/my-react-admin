@@ -1,5 +1,5 @@
 export const appConfig = {
   appVersion: "v1.0.0",
-  baseUrl: "",
+  baseUrl: "http://192.168.5.100:18080",
   requestTimeout: 12000,
 };

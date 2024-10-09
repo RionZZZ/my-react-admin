@@ -1,23 +1,19 @@
-export interface UserInfo {
-  userId: string | number;
-  userName: string;
-}
-
-export interface UserState {
-  userInfo: UserInfo | null;
-  token?: string;
-}
+import { GenderEnum } from "./enums";
 
 export interface User {
-  id: number;
+  id: number | null;
   userPassword: string;
   userName: string;
   userAccount: string;
-  status: number;
-  roleId: number;
+  status: number | null;
+  roleId: number | null;
+  phone: string | null;
+  email: string | null;
+  sex: GenderEnum | null;
+  deptId: number | null;
 }
 
 export interface LoginField {
-  userName: string;
-  password: string;
+  userAccount: string;
+  userPassword: string;
 }

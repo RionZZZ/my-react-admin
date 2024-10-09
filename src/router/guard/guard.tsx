@@ -5,11 +5,9 @@ import { useAppSelector } from "@/store";
 export const Guard = ({ children }: { children: ReactNode }) => {
   const whiteList: string[] = ["/login"];
   const { pathname } = useLocation();
-  const { token } = useAppSelector((state) => state.user);
+  const { id } = useAppSelector((state) => state.user);
 
-  console.log("token========", token);
-
-  if (!token) {
+  if (!id) {
     if (whiteList.includes(pathname)) {
       return <Navigate to="/login" replace />;
     } else {

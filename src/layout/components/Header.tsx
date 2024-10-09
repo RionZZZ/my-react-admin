@@ -12,15 +12,16 @@ import {
 import useStyles from "../style";
 import { UserOutlined } from "@ant-design/icons";
 import { useMessage } from "@/hooks/useMessage";
-import { useAppDispatch } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { resetUser } from "@/store/modules/user";
+import { User } from "@/types/user";
 
 const { Header: AntdHeader } = Layout;
 
 const items: MenuProps["items"] = [
   {
-    label: "个人中心",
-    key: "user",
+    label: "修改密码",
+    key: "changePwd",
   },
   {
     label: "退出登录",
@@ -31,13 +32,13 @@ const items: MenuProps["items"] = [
 const Header: FC = () => {
   const { styles } = useStyles();
   const { createConfirm, createMessage } = useMessage();
-
   const dispatch = useAppDispatch();
+  const { userName } = useAppSelector<User>((state) => state.user);
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
     switch (key) {
-      case "user":
-        handleUserInfo();
+      case "changePwd":
+        handleChangePwd();
         break;
       case "logout":
         handleLogout();
@@ -45,8 +46,8 @@ const Header: FC = () => {
     }
   };
 
-  const handleUserInfo = () => {
-    createMessage.success("userInfo");
+  const handleChangePwd = () => {
+    createMessage.success("handleChangePwdo");
   };
 
   const handleLogout = () => {
@@ -66,7 +67,7 @@ const Header: FC = () => {
           <Breadcrumb.Item>Bill</Breadcrumb.Item>
         </Breadcrumb>
         <Space>
-          郑大世
+          {userName}
           <Divider type="vertical" className={styles.divider} />
           <Dropdown menu={{ items, onClick }} placement="bottom">
             <Avatar icon={<UserOutlined />} />

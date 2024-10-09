@@ -1,15 +1,16 @@
 import { useTitle } from "@/hooks/useTitle";
 import { useAppDispatch } from "@/store";
-import { setToken, setUserInfo } from "@/store/modules/user";
+import { setUser } from "@/store/modules/user";
 import { Button, Form, FormProps, Input, Space } from "antd";
 import { FC } from "react";
 import useStyles from "./style";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { LoginField, UserState } from "@type/user";
+import { LoginField, User } from "@type/user";
 import { appConfig } from "@/config";
 import { useRequest } from "ahooks";
 import { UserApi } from "@/service";
 import { Result } from "@/types/http";
+import { md5 } from "@/utils/encrypt";
 
 const LoginPage: FC = () => {
   useTitle();
@@ -22,17 +23,21 @@ const LoginPage: FC = () => {
 
   const { loading, run } = useRequest(UserApi.login, {
     manual: true,
-    onSuccess: (res: Result<UserState>) => {
+    onSuccess: (res: Result<User>) => {
       console.log(res);
-      dispatch(setToken(res.obj.token));
-      dispatch(setUserInfo(res.obj.userInfo));
-      const redirect = searchParams.get("redirect");
-      navigate(redirect || "/home");
+      if (res.code === 0) {
+        dispatch(setUser(res.obj));
+        const redirect = searchParams.get("redirect");
+        navigate(redirect || "/home");
+      }
     },
   });
 
   const handleLogin: FormProps<LoginField>["onFinish"] = (values) => {
-    run(values);
+    const userPassword = md5(values.userPassword);
+    console.log(userPassword);
+
+    run({ ...values, userPassword });
   };
 
   return (
@@ -49,14 +54,14 @@ const LoginPage: FC = () => {
           >
             <Form.Item<LoginField>
               label="用户名"
-              name="userName"
+              name="userAccount"
               rules={[{ required: true, message: "请输入用户名！" }]}
             >
               <Input placeholder="请输入用户名" />
             </Form.Item>
             <Form.Item<LoginField>
               label="密码"
-              name="password"
+              name="userPassword"
               rules={[{ required: true, message: "请输入密码！" }]}
             >
               <Input.Password placeholder="请输入密码" />

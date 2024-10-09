@@ -5,7 +5,7 @@ import Axios, {
 } from "axios";
 import { appConfig } from "@/config";
 import qs from "qs";
-import { useAppDispatch, useAppSelector } from "@/store";
+import { store, useAppDispatch } from "@/store";
 import { useMessage } from "@/hooks/useMessage";
 import { resetUser } from "@/store/modules/user";
 
@@ -30,10 +30,11 @@ class _Http {
   private httpInterceptorsRequest() {
     _Http.axiosInstance.interceptors.request.use(
       (config) => {
-        const { token } = useAppSelector((state) => state.user);
-        if (token) {
-          config.headers!.Authorization = token;
+        const { user } = store.getState();
+        if (user.token) {
+          config.headers!.Authorization = user.token;
         }
+        console.log(user);
 
         const { createMessage } = useMessage();
         if (!navigator.onLine) {
@@ -47,6 +48,7 @@ class _Http {
             ...config.params,
           };
         }
+
         return config;
       },
       (error) => {
@@ -59,14 +61,15 @@ class _Http {
   private httpInterceptorsResponse() {
     _Http.axiosInstance.interceptors.response.use(
       (res) => {
+        console.log(res.data);
+
         // 未设置状态码则默认成功状态
         const code = res.data.code;
         if (code && code !== 0) {
           const { createMessage } = useMessage();
           createMessage.error(res.data.msg);
           if (code === 401) {
-            const dispatch = useAppDispatch();
-            dispatch(resetUser());
+            store.dispatch(resetUser());
           }
         }
         return res.data;

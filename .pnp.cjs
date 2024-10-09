@@ -30,6 +30,7 @@ const RAW_RUNTIME_STATE =
           ["@ant-design/icons", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:5.5.1"],\
           ["@eslint/js", "npm:9.11.1"],\
           ["@reduxjs/toolkit", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:2.2.7"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/qs", "npm:6.9.16"],\
           ["@types/react", "npm:18.3.10"],\
           ["@types/react-dom", "npm:18.3.0"],\
@@ -38,6 +39,7 @@ const RAW_RUNTIME_STATE =
           ["antd", "npm:5.21.1"],\
           ["antd-style", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:3.7.0"],\
           ["axios", "npm:1.7.7"],\
+          ["crypto-js", "npm:4.2.0"],\
           ["eslint", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:9.11.1"],\
           ["eslint-plugin-react-hooks", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:5.1.0-rc-fb9a90fa48-20240614"],\
           ["eslint-plugin-react-refresh", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:0.4.12"],\
@@ -1671,6 +1673,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@types/crypto-js", [\
+      ["npm:4.2.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@types-crypto-js-npm-4.2.2-21357d525e-10c0.zip/node_modules/@types/crypto-js/",\
+        "packageDependencies": [\
+          ["@types/crypto-js", "npm:4.2.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/estree", [\
       ["npm:1.0.6", {\
         "packageLocation": "../../.yarn/berry/cache/@types-estree-npm-1.0.6-b5e23f2ea2-10c0.zip/node_modules/@types/estree/",\
@@ -2090,6 +2101,7 @@ const RAW_RUNTIME_STATE =
           ["@ant-design/icons", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:5.5.1"],\
           ["@eslint/js", "npm:9.11.1"],\
           ["@reduxjs/toolkit", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:2.2.7"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/qs", "npm:6.9.16"],\
           ["@types/react", "npm:18.3.10"],\
           ["@types/react-dom", "npm:18.3.0"],\
@@ -2098,6 +2110,7 @@ const RAW_RUNTIME_STATE =
           ["antd", "npm:5.21.1"],\
           ["antd-style", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:3.7.0"],\
           ["axios", "npm:1.7.7"],\
+          ["crypto-js", "npm:4.2.0"],\
           ["eslint", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:9.11.1"],\
           ["eslint-plugin-react-hooks", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:5.1.0-rc-fb9a90fa48-20240614"],\
           ["eslint-plugin-react-refresh", "virtual:799ac87177d8e5a28586ff301ec629af942ab7639122c4ed2c8eced189ebe2534f922ef512da8cebe9fce0e11ca36b3d4a590e5a00f40a40e58724726ba465b5#npm:0.4.12"],\
@@ -2563,6 +2576,15 @@ const RAW_RUNTIME_STATE =
           ["path-key", "npm:3.1.1"],\
           ["shebang-command", "npm:2.0.0"],\
           ["which", "npm:2.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["crypto-js", [\
+      ["npm:4.2.0", {\
+        "packageLocation": "../../.yarn/berry/cache/crypto-js-npm-4.2.0-d6f7744e63-10c0.zip/node_modules/crypto-js/",\
+        "packageDependencies": [\
+          ["crypto-js", "npm:4.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
