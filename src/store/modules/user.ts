@@ -1,7 +1,7 @@
-import { User } from "@/types/user";
+import { UserData } from "@/types/user";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: User = {
+const initialState: UserData = {
   deptId: null,
   email: null,
   id: null,
@@ -18,7 +18,7 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, { payload }: { payload: User }) => {
+    setUser: (state, { payload }: { payload: UserData }) => {
       return { ...state, ...payload };
     },
     resetUser: () => {

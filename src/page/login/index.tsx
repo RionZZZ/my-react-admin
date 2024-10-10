@@ -5,7 +5,7 @@ import { Button, Form, FormProps, Input, Space } from "antd";
 import { FC } from "react";
 import useStyles from "./style";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { LoginField, User } from "@type/user";
+import { LoginField, UserData } from "@type/user";
 import { appConfig } from "@/config";
 import { useRequest } from "ahooks";
 import { UserApi } from "@/service";
@@ -23,7 +23,7 @@ const LoginPage: FC = () => {
 
   const { loading, run } = useRequest(UserApi.login, {
     manual: true,
-    onSuccess: (res: Result<User>) => {
+    onSuccess: (res: Result<UserData>) => {
       console.log(res);
       if (res.code === 0) {
         dispatch(setUser(res.obj));

@@ -14,7 +14,9 @@ import { UserOutlined } from "@ant-design/icons";
 import { useMessage } from "@/hooks/useMessage";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { resetUser } from "@/store/modules/user";
-import { User } from "@/types/user";
+import { UserData } from "@/types/user";
+import ChangePwd from "./ChangePwd";
+import { useBoolean } from "ahooks";
 
 const { Header: AntdHeader } = Layout;
 
@@ -31,9 +33,12 @@ const items: MenuProps["items"] = [
 
 const Header: FC = () => {
   const { styles } = useStyles();
-  const { createConfirm, createMessage } = useMessage();
+  const { createConfirm } = useMessage();
   const dispatch = useAppDispatch();
-  const { userName } = useAppSelector<User>((state) => state.user);
+  const { userName } = useAppSelector<UserData>((state) => state.user);
+
+  const [modalVisible, { setTrue: setModalTrue, setFalse: setModalFalse }] =
+    useBoolean(false);
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
     switch (key) {
@@ -47,7 +52,7 @@ const Header: FC = () => {
   };
 
   const handleChangePwd = () => {
-    createMessage.success("handleChangePwdo");
+    setModalTrue();
   };
 
   const handleLogout = () => {
@@ -74,6 +79,7 @@ const Header: FC = () => {
           </Dropdown>
         </Space>
       </Flex>
+      <ChangePwd modalVisible={modalVisible} handleClose={setModalFalse} />
     </AntdHeader>
   );
 };

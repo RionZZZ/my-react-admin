@@ -1,6 +1,6 @@
 import { GenderEnum } from "./enums";
 
-export interface User {
+export interface UserData {
   id: number | null;
   userPassword: string;
   userName: string;

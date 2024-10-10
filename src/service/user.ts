@@ -1,7 +1,7 @@
 import CRUD from "./CRUD";
 import http from "@/utils/request";
 import type { Result } from "@type/http";
-import { User as UserData, LoginField } from "@type/user";
+import { UserData, LoginField } from "@type/user";
 const url = "/user";
 
 class User extends CRUD {

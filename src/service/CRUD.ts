@@ -14,11 +14,11 @@ export default class CRUD {
     return http.get<T, Result<PageResult<P>>>(`${this.url}/page`, params);
   }
 
-  create<T>(data: T) {
-    return http.post<T, Result<unknown>>(`${this.url}/add`, data);
+  create<T, P>(data: T) {
+    return http.post<T, Result<P>>(`${this.url}/add`, data);
   }
-  
-  update<T>(data: T) {
-    return http.post<T, Result<unknown>>(`${this.url}/update`, data);
-  }
+
+  update = <T, P>(data: T) => {
+    return http.post<T, Result<P>>(`${this.url}/update`, data);
+  };
 }

@@ -5,7 +5,7 @@ import Axios, {
 } from "axios";
 import { appConfig } from "@/config";
 import qs from "qs";
-import { store, useAppDispatch } from "@/store";
+import { store } from "@/store";
 import { useMessage } from "@/hooks/useMessage";
 import { resetUser } from "@/store/modules/user";
 
@@ -30,12 +30,10 @@ class _Http {
   private httpInterceptorsRequest() {
     _Http.axiosInstance.interceptors.request.use(
       (config) => {
-        const { user } = store.getState();
-        if (user.token) {
-          config.headers!.Authorization = user.token;
-        }
-        console.log(user);
-
+        // const { user } = store.getState();
+        // if (user.token) {
+        //   config.headers!.Authorization = user.token;
+        // }
         const { createMessage } = useMessage();
         if (!navigator.onLine) {
           createMessage.error("网络故障，请检查");
@@ -61,8 +59,6 @@ class _Http {
   private httpInterceptorsResponse() {
     _Http.axiosInstance.interceptors.response.use(
       (res) => {
-        console.log(res.data);
-
         // 未设置状态码则默认成功状态
         const code = res.data.code;
         if (code && code !== 0) {
