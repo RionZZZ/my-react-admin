@@ -1,4 +1,11 @@
-import { FC } from "react";
+import {
+  createElement,
+  FC,
+  FunctionComponent,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import {
   Avatar,
   Breadcrumb,
@@ -17,6 +24,11 @@ import { resetUser } from "@/store/modules/user";
 import { UserData } from "@/types/user";
 import ChangePwd from "./ChangePwd";
 import { useBoolean } from "ahooks";
+
+import { routeList } from "@/router";
+import { matchRoutes, useLocation } from "react-router-dom";
+import * as Icon from "@ant-design/icons";
+import { MetaProps } from "@/router/types";
 
 const { Header: AntdHeader } = Layout;
 
@@ -64,13 +76,35 @@ const Header: FC = () => {
       },
     });
   };
+
+  const { pathname } = useLocation();
+  const [breadcrumbItems, setBreadcrumbItems] = useState<
+    { title: ReactNode }[]
+  >([]);
+
+  useEffect(() => {
+    const matchList = matchRoutes(routeList, pathname) ?? [];
+    const breadcrumbs = matchList.map((item) => {
+      const { title, icon } = item.route.meta as MetaProps;
+      return {
+        title: (
+          <>
+            {icon &&
+              createElement(
+                Icon[icon as keyof typeof Icon] as FunctionComponent<unknown>
+              )}
+            <span>{title}</span>
+          </>
+        ),
+      };
+    });
+    setBreadcrumbItems(breadcrumbs);
+  }, [pathname]);
+
   return (
     <AntdHeader className={styles.headerWrapper}>
       <Flex justify="space-between" align="center" className={styles.header}>
-        <Breadcrumb>
-          <Breadcrumb.Item>User</Breadcrumb.Item>
-          <Breadcrumb.Item>Bill</Breadcrumb.Item>
-        </Breadcrumb>
+        <Breadcrumb items={breadcrumbItems} />
         <Space>
           {userName}
           <Divider type="vertical" className={styles.divider} />

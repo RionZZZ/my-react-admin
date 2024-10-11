@@ -19,6 +19,7 @@ export default createStyles(({ token }) => ({
   },
   headerWrapper: {
     backgroundColor: token.colorBgContainer,
+    padding: "0 20px",
   },
   header: {
     height: "100%",

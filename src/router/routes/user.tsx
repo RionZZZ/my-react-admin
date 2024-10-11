@@ -10,6 +10,7 @@ const UserRoute: SelfRouteObject = {
     title: "用户",
     orderNo: 2,
     icon: "BankOutlined",
+    hideMenu: true,
   },
   children: [
     {

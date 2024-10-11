@@ -1,5 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { RouteModule, SelfRouteObject } from "./types";
+import LoginRoute from "./auth/login";
+import ExceptionRoute from "./auth/exception";
 
 const allRoutes = import.meta.glob("./routes/*.tsx", {
   eager: true,
@@ -19,6 +21,8 @@ const routers: SelfRouteObject[] = [
     name: "Main",
     element: <Navigate to="/home" replace />,
   },
+  LoginRoute,
+  ExceptionRoute,
   ...routeList,
   {
     path: "*",

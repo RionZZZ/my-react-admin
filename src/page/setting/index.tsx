@@ -1,4 +1,4 @@
-import SettingSystem from "./system";
-import SettingList from "./list";
+import SettingDept from "./dept";
+import SettingUser from "./user";
 
-export { SettingSystem, SettingList };
+export { SettingDept, SettingUser };

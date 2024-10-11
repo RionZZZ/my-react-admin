@@ -11,6 +11,7 @@ const HomeRoute: SelfRouteObject = {
     orderNo: 1,
     hideChildMenu: true,
     icon: "BankOutlined",
+    hideMenu: true,
   },
   children: [
     {

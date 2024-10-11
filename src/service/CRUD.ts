@@ -7,18 +7,18 @@ export default class CRUD {
     this.url = url;
   }
 
-  fetchList<T, P>(params?: T) {
-    return http.get<T, Result<P>>(`${this.url}/getList`, params);
-  }
-  fetchPage<T, P>(params?: T) {
-    return http.get<T, Result<PageResult<P>>>(`${this.url}/page`, params);
-  }
+  /*
+    this指向问题，全部改成箭头函数形式
+  */
 
-  create<T, P>(data: T) {
-    return http.post<T, Result<P>>(`${this.url}/add`, data);
-  }
+  fetchList = <T, P>(params?: T) =>
+    http.get<T, Result<P>>(`${this.url}/getList`, params);
 
-  update = <T, P>(data: T) => {
-    return http.post<T, Result<P>>(`${this.url}/update`, data);
-  };
+  fetchPage = <T, P>(params?: T) =>
+    http.get<T, Result<PageResult<P>>>(`${this.url}/page`, params);
+
+  create = <T, P>(data: T) => http.post<T, Result<P>>(`${this.url}/add`, data);
+
+  update = <T, P>(data: T) =>
+    http.post<T, Result<P>>(`${this.url}/update`, data);
 }

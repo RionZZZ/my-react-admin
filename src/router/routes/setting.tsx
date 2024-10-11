@@ -1,5 +1,5 @@
 import { SelfRouteObject } from "../types";
-import { SettingList, SettingSystem } from "@/page/setting";
+import { SettingDept, SettingUser } from "@/page/setting";
 import { GuardLayout } from "../guard";
 
 const SettingRoute: SelfRouteObject = {
@@ -7,27 +7,27 @@ const SettingRoute: SelfRouteObject = {
   name: "Setting",
   element: <GuardLayout />,
   meta: {
-    title: "设置",
-    orderNo: 3,
-    icon: "BankOutlined",
+    title: "系统设置",
+    orderNo: 4,
+    icon: "SettingOutlined",
   },
   children: [
     {
-      path: "system",
-      name: "SettingSystem",
-      Component: SettingSystem,
+      path: "dept",
+      name: "SettingDept",
+      Component: SettingDept,
       meta: {
-        title: "系统设置",
-        key: "setting-system",
+        title: "部门管理",
+        key: "setting-dept",
       },
     },
     {
-      path: "list",
-      name: "SettingList",
-      Component: SettingList,
+      path: "user",
+      name: "SettingUser",
+      Component: SettingUser,
       meta: {
-        title: "设置列表",
-        key: "setting-list",
+        title: "用户管理",
+        key: "setting-user",
       },
     },
   ],

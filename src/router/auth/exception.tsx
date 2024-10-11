@@ -9,7 +9,6 @@ const ExceptionRoute: SelfRouteObject = {
   element: <GuardLayout />,
   meta: {
     title: "异常",
-    hideMenu: true,
   },
   children: [
     {

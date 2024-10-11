@@ -95,7 +95,6 @@ const Aside: FC = () => {
   };
 
   const { pathname } = useLocation();
-  console.log(pathname);
 
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const [selectedKeys, setSelectedKeys] = useState([pathname]);

@@ -7,7 +7,6 @@ const LoginRoute: SelfRouteObject = {
   element: <LoginPage />,
   meta: {
     title: "登录",
-    hideMenu: true,
   },
 };
 
