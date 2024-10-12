@@ -1,22 +1,30 @@
 import CRUD from "@/service/CRUD";
 import { useRequest } from "ahooks";
+import { useState } from "react";
 
-let api: CRUD;
-let queryData: unknown;
-
-const useQueryAll = <T, P>() => {
-  useRequest(api.fetchList<T, P>, {
-    onSuccess: (res) => {
-      if (res.code === 0) {
-        console.log(res);
-        queryData = res.obj;
-      }
-    },
-  });
-};
-
-export const useCRUD = (service: CRUD) => {
-  api = service;
-
-  return { useQueryAll, queryData };
+export const useCRUD = <T, P>(api: CRUD) => {
+  const [queryData, setQueryData] = useState<P>();
+  const { run: queryList, loading: queryLoading } = useRequest(
+    api.fetchList<T, P>,
+    {
+      manual: true,
+      onSuccess: (res) => {
+        if (res.code === 0) {
+          setQueryData(res.obj);
+        }
+      },
+    }
+  );
+  const { run: queryPage, loading: pageLoading } = useRequest(
+    api.fetchPage<T, P>,
+    {
+      manual: true,
+      onSuccess: (res) => {
+        if (res.code === 0) {
+          setQueryData(res.obj.list);
+        }
+      },
+    }
+  );
+  return { queryList, queryPage, queryData, queryLoading, pageLoading };
 };

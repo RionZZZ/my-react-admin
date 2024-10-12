@@ -5,3 +5,7 @@ export interface DeptData {
   parentName: string | null;
   deptList: DeptData[];
 }
+
+export interface DeptField {
+  name: string;
+}
