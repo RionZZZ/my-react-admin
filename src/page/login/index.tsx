@@ -5,11 +5,10 @@ import { Button, Form, FormProps, Input, Space } from "antd";
 import { FC } from "react";
 import useStyles from "./style";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { LoginField, UserData } from "@type/user";
+import { LoginField } from "@type/user";
 import { appConfig } from "@/config";
 import { useRequest } from "ahooks";
 import { UserApi } from "@/service";
-import { Result } from "@/types/http";
 import { md5 } from "@/utils/encrypt";
 
 const LoginPage: FC = () => {
@@ -21,10 +20,9 @@ const LoginPage: FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const { loading, run } = useRequest(UserApi.login, {
+  const { loading, run: login } = useRequest(UserApi.login, {
     manual: true,
-    onSuccess: (res: Result<UserData>) => {
-      console.log(res);
+    onSuccess: (res) => {
       if (res.code === 0) {
         dispatch(setUser(res.obj));
         const redirect = searchParams.get("redirect");
@@ -35,9 +33,7 @@ const LoginPage: FC = () => {
 
   const handleLogin: FormProps<LoginField>["onFinish"] = (values) => {
     const userPassword = md5(values.userPassword);
-    console.log(userPassword);
-
-    run({ ...values, userPassword });
+    login({ ...values, userPassword });
   };
 
   return (
@@ -45,7 +41,7 @@ const LoginPage: FC = () => {
       <div className={styles.loginWrapper}>
         <div className={styles.loginImage}></div>
         <div className={styles.loginContent}>
-          <div className={styles.loginTitle}>固定资产管理系统</div>
+          <div className={styles.loginTitle}>{appConfig.appName}</div>
           <Form
             className={styles.loginForm}
             layout="vertical"

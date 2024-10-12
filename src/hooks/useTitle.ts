@@ -3,13 +3,18 @@ import { useLocation } from "react-router-dom";
 import { useTitle as usePageTitle } from "ahooks";
 import { routeList } from "@/router";
 import { searchRoute } from "@/utils/app";
+import { appConfig } from "@/config";
 
 export const useTitle = () => {
   const [title, setTitle] = useState("AMS");
   const { pathname } = useLocation();
   useEffect(() => {
     const route = searchRoute(pathname, routeList);
-    setTitle(`固定资产管理系统-${route?.meta?.title as string}`);
+    setTitle(
+      route
+        ? `${appConfig.appName}-${route?.meta?.title as string}`
+        : appConfig.appName
+    );
   }, [pathname]);
 
   usePageTitle(title);
