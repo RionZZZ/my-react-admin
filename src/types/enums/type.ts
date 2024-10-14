@@ -4,3 +4,9 @@ export enum TypeEnum {
   ERROR = "error",
   WARN = "warn",
 }
+
+export enum HandleTypeEnum {
+  EDIT = "edit",
+  ADD = "add",
+  DETAIL = "detail",
+}

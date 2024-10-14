@@ -3,7 +3,7 @@ import { FC, ReactNode } from "react";
 
 interface PropState {
   children: ReactNode;
-  query: <T>(params?: T) => void;
+  query: () => void;
   add: () => void;
 }
 

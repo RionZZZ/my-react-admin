@@ -6,9 +6,22 @@ import { Card, Form, Input, Table, TableProps } from "antd";
 import { FC, useEffect } from "react";
 import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
+import DeptModal from "./components/deptModal";
+import { HandleTypeEnum } from "@/types/enums/type";
 
 const SettingDeptPage: FC = () => {
-  const { queryPage, queryData, pageLoading: loading } = useCRUD(DeptApi);
+  const {
+    queryPage,
+    queryData,
+    pageLoading: loading,
+    edit,
+    add,
+    modalVisible,
+    setModalFalse,
+    handleType,
+    modalData,
+    handleModal,
+  } = useCRUD<DeptField, DeptData>(DeptApi);
   useEffect(() => {
     queryPage();
   }, [queryPage]);
@@ -31,15 +44,15 @@ const SettingDeptPage: FC = () => {
     },
   ];
 
-  const { styles: customStyles, cx: customCx } = useCustomStyles();
-
-  const add = () => {
-    console.log("add");
+  const handleSubmit = (data: DeptData) => {
+    console.log(data);
+    return data.id ? edit(data) : add(data);
   };
 
+  const { styles: customStyles, cx: customCx } = useCustomStyles();
   return (
     <div className={customStyles.containerWrapper}>
-      <Search query={queryPage} add={add}>
+      <Search query={queryPage} add={() => handleModal(HandleTypeEnum.ADD)}>
         <Form.Item<DeptField> label="部门名称" name="name">
           <Input placeholder="请输入名称" />
         </Form.Item>
@@ -72,6 +85,13 @@ const SettingDeptPage: FC = () => {
           }}
         />
       </Card>
+      <DeptModal
+        modalVisible={modalVisible}
+        initialData={modalData}
+        type={handleType}
+        close={setModalFalse}
+        submit={handleSubmit}
+      />
     </div>
   );
 };

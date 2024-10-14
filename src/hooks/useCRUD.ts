@@ -1,11 +1,18 @@
 import CRUD from "@/service/CRUD";
-import { useRequest } from "ahooks";
+import { HandleTypeEnum } from "@/types/enums/type";
+import { useBoolean, useRequest } from "ahooks";
 import { useState } from "react";
+import { useMessage } from "./useMessage";
 
 export const useCRUD = <T, P>(api: CRUD) => {
-  const [queryData, setQueryData] = useState<P>();
+  const { createMessage } = useMessage();
+
+  //请求相关
+  const [queryData, setQueryData] = useState<P[]>();
+
+  // 全部数据请求
   const { run: queryList, loading: queryLoading } = useRequest(
-    api.fetchList<T, P>,
+    api.fetchList<T, P[]>,
     {
       manual: true,
       onSuccess: (res) => {
@@ -15,8 +22,9 @@ export const useCRUD = <T, P>(api: CRUD) => {
       },
     }
   );
+  // 分页数据请求
   const { run: queryPage, loading: pageLoading } = useRequest(
-    api.fetchPage<T, P>,
+    api.fetchPage<T, P[]>,
     {
       manual: true,
       onSuccess: (res) => {
@@ -26,5 +34,59 @@ export const useCRUD = <T, P>(api: CRUD) => {
       },
     }
   );
-  return { queryList, queryPage, queryData, queryLoading, pageLoading };
+
+  // 编辑接口
+  /**
+   * 使用run，走通用逻辑，弹出成功信息，关掉弹窗，刷新列表
+   * 不通用逻辑使用runAsync，在组件内写回调逻辑
+   */
+  const { run: edit, runAsync: editAsync } = useRequest(api.update<T, P>, {
+    manual: true,
+    onSuccess: (res) => {
+      if (res.code === 0) {
+        createMessage.success(res.msg);
+        setModalFalse();
+        queryPage();
+      }
+    },
+  });
+  // 创建接口
+  const { run: add, runAsync: addAsync } = useRequest(api.create<T, P>, {
+    manual: true,
+    onSuccess: (res) => {
+      if (res.code === 0) {
+        createMessage.success(res.msg);
+        setModalFalse();
+        queryPage();
+      }
+    },
+  });
+
+  // Modal相关
+  const [modalVisible, { setTrue: setModalTrue, setFalse: setModalFalse }] =
+    useBoolean(false);
+  const [handleType, setHandleType] = useState<HandleTypeEnum>();
+  const [modalData, setModalData] = useState<P>();
+  const handleModal = (type: HandleTypeEnum, data?: P) => {
+    setHandleType(type);
+    setModalData(data);
+    setModalTrue();
+  };
+
+  return {
+    queryList,
+    queryPage,
+    queryData,
+    queryLoading,
+    pageLoading,
+    edit,
+    editAsync,
+    add,
+    addAsync,
+    modalVisible,
+    setModalFalse,
+    handleType,
+    modalData,
+    handleModal,
+  };
 };
