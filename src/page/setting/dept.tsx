@@ -8,6 +8,8 @@ import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
 import DeptModal from "./components/deptModal";
 import { HandleTypeEnum } from "@/types/enums/type";
+import { Handle } from "@/component/handle";
+import { useMessage } from "@/hooks/useMessage";
 
 const SettingDeptPage: FC = () => {
   const {
@@ -40,13 +42,42 @@ const SettingDeptPage: FC = () => {
     {
       title: "操作",
       key: "handle",
-      render: (_, { id }) => <span>{id}</span>,
+      render: (_, data) => (
+        <>
+          <Handle
+            items={[
+              {
+                text: "编辑",
+                onClick: () => handleModal(HandleTypeEnum.EDIT, data),
+              },
+              {
+                text: "删除",
+                onClick: () => {
+                  handleDelete(data);
+                },
+              },
+            ]}
+          />
+        </>
+      ),
     },
   ];
 
   const handleSubmit = (data: DeptData) => {
     console.log(data);
     return data.id ? edit(data) : add(data);
+  };
+
+  const { createConfirm } = useMessage();
+  const handleDelete = (data: DeptData) => {
+    createConfirm({
+      type: "info",
+      content: `确定删除${data.name}？`,
+      onOk: () => {
+        const isDelete = 1;
+        return edit({ ...data, isDelete });
+      },
+    });
   };
 
   const { styles: customStyles, cx: customCx } = useCustomStyles();

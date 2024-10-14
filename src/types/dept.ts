@@ -4,6 +4,7 @@ export interface DeptData {
   parentId: number | null;
   parentName: string | null;
   deptList: DeptData[];
+  isDelete: number;
 }
 
 export interface DeptField {

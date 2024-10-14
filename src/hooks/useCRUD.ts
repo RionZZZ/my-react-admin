@@ -40,18 +40,21 @@ export const useCRUD = <T, P>(api: CRUD) => {
    * 使用run，走通用逻辑，弹出成功信息，关掉弹窗，刷新列表
    * 不通用逻辑使用runAsync，在组件内写回调逻辑
    */
-  const { run: edit, runAsync: editAsync } = useRequest(api.update<T, P>, {
-    manual: true,
-    onSuccess: (res) => {
-      if (res.code === 0) {
-        createMessage.success(res.msg);
-        setModalFalse();
-        queryPage();
-      }
-    },
-  });
+  const { run: edit, runAsync: editAsync } = useRequest(
+    api.update<P, unknown>,
+    {
+      manual: true,
+      onSuccess: (res) => {
+        if (res.code === 0) {
+          createMessage.success(res.msg);
+          setModalFalse();
+          queryPage();
+        }
+      },
+    }
+  );
   // 创建接口
-  const { run: add, runAsync: addAsync } = useRequest(api.create<T, P>, {
+  const { run: add, runAsync: addAsync } = useRequest(api.create<P, unknown>, {
     manual: true,
     onSuccess: (res) => {
       if (res.code === 0) {

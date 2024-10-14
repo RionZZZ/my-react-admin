@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Form, Input, Modal } from "antd";
 import { HandleTypeEnum } from "@/types/enums/type";
 import { DeptData } from "@/types/dept";
@@ -16,6 +16,17 @@ const DeptModal: FC<PropState> = (props) => {
 
   const [form] = Form.useForm();
 
+  useEffect(() => {
+    form.setFieldsValue({ ...initialData });
+  }, [form, initialData]);
+
+  const handleAfterClose = () => {
+    form.resetFields();
+  };
+
+  const handleSubmit = (params: DeptData) => {
+    submit({ ...initialData, ...params });
+  };
   return (
     <Modal
       open={modalVisible}
@@ -26,13 +37,10 @@ const DeptModal: FC<PropState> = (props) => {
       onCancel={close}
       onOk={form.submit}
       destroyOnClose
+      forceRender
+      afterClose={handleAfterClose}
     >
-      <Form
-        form={form}
-        initialValues={initialData}
-        labelCol={{ span: 5 }}
-        onFinish={submit}
-      >
+      <Form form={form} labelCol={{ span: 5 }} onFinish={handleSubmit}>
         <Form.Item<DeptData>
           label="部门名称"
           name="name"
@@ -40,6 +48,7 @@ const DeptModal: FC<PropState> = (props) => {
         >
           <Input placeholder="请输入部门名称" />
         </Form.Item>
+        <span>{JSON.stringify(initialData)}</span>
       </Form>
     </Modal>
   );
