@@ -11,6 +11,7 @@ import { HandleTypeEnum } from "@/types/enums/type";
 import { Handle } from "@/component/handle";
 import { useMessage } from "@/hooks/useMessage";
 import { useRequest } from "ahooks";
+import { UserField, UserData } from "@/types/user";
 
 const SettingDeptPage: FC = () => {
   const {
@@ -60,15 +61,15 @@ const SettingDeptPage: FC = () => {
     },
   ];
 
-  const handleSubmit = (data: DeptData) => {
-    console.log(data);
-    return data.id ? edit(data) : add(data);
-  };
+  const handleSubmit = (data: DeptData) => (data.id ? edit(data) : add(data));
 
   const { createConfirm } = useMessage();
-  const { runAsync: getUserList } = useRequest(UserApi.fetchPage, {
-    manual: true,
-  });
+  const { runAsync: getUserList } = useRequest(
+    UserApi.fetchPage<UserField, UserData[]>,
+    {
+      manual: true,
+    }
+  );
   const handleDelete = (data: DeptData) => {
     // 先判断部门下是否有员工
     getUserList({ deptId: data.id }).then((res) => {
