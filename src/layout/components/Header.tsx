@@ -108,7 +108,7 @@ const Header: FC = () => {
         <Space>
           {userName}
           <Divider type="vertical" className={styles.divider} />
-          <Dropdown menu={{ items, onClick }} placement="bottom">
+          <Dropdown menu={{ items, onClick }} placement="bottom"  overlayStyle={{ width: 'max-content' }} >
             <Avatar icon={<UserOutlined />} />
           </Dropdown>
         </Space>
