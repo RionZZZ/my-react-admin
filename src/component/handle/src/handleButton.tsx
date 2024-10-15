@@ -10,7 +10,7 @@ interface PropState {
   items: HandleItem[];
 }
 
-const Handle: FC<PropState> = ({ items }) => (
+const HandleButton: FC<PropState> = ({ items }) => (
   <>
     {items.map((item, index) => (
       <Button
@@ -26,4 +26,4 @@ const Handle: FC<PropState> = ({ items }) => (
   </>
 );
 
-export default Handle;
+export default HandleButton;

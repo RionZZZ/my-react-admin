@@ -8,7 +8,7 @@ import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
 import DeptModal from "./components/deptModal";
 import { HandleTypeEnum } from "@/types/enums/type";
-import { Handle } from "@/component/handle";
+import { HandleButton } from "@/component/handle";
 import { useMessage } from "@/hooks/useMessage";
 import { useRequest } from "ahooks";
 import { UserField, UserData } from "@/types/user";
@@ -45,7 +45,7 @@ const SettingDeptPage: FC = () => {
       title: "操作",
       key: "handle",
       render: (_, data) => (
-        <Handle
+        <HandleButton
           items={[
             {
               text: "编辑",

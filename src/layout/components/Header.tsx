@@ -22,7 +22,7 @@ import { useMessage } from "@/hooks/useMessage";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { resetUser } from "@/store/modules/user";
 import { UserData } from "@/types/user";
-import ChangePwd from "./ChangePwd";
+import ChangePwd from "./changePwd";
 import { useBoolean } from "ahooks";
 
 import { routeList } from "@/router";

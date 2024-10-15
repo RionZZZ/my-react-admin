@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { Outlet } from "react-router-dom";
 import { Layout } from "antd";
-import Aside from "./components/Aside";
-import Header from "./components/Header";
+import Aside from "./components/aside";
+import Header from "./components/header";
 import useStyles from "./style";
 import { useTitle } from "@/hooks/useTitle";
 

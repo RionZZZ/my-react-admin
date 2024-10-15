@@ -11,6 +11,9 @@ class User extends CRUD {
   login(params: LoginField) {
     return http.get<LoginField, Result<UserData>>(url + "/login", params);
   }
+  getDefaultPwd() {
+    return http.get(url + "/getDefaultPwd");
+  }
 }
 
 export const UserApi = new User();

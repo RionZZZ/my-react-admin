@@ -1,3 +1,4 @@
-import Handle from "./src/handle";
+import HandleButton from "./src/handleButton";
+import HandleModal from "./src/handleModal";
 
-export { Handle };
+export { HandleButton, HandleModal };
