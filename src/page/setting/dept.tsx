@@ -1,5 +1,5 @@
 import { useCRUD } from "@/hooks/useCRUD";
-import { DeptApi } from "@/service";
+import { DeptApi, UserApi } from "@/service";
 import { DeptData, DeptField } from "@/types/dept";
 import { CaretDownOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { Card, Form, Input, Table, TableProps } from "antd";
@@ -10,6 +10,8 @@ import DeptModal from "./components/deptModal";
 import { HandleTypeEnum } from "@/types/enums/type";
 import { Handle } from "@/component/handle";
 import { useMessage } from "@/hooks/useMessage";
+import { useRequest } from "ahooks";
+import { UserField, UserData } from "@/types/user";
 
 const SettingDeptPage: FC = () => {
   const {
@@ -43,40 +45,48 @@ const SettingDeptPage: FC = () => {
       title: "操作",
       key: "handle",
       render: (_, data) => (
-        <>
-          <Handle
-            items={[
-              {
-                text: "编辑",
-                onClick: () => handleModal(HandleTypeEnum.EDIT, data),
-              },
-              {
-                text: "删除",
-                onClick: () => {
-                  handleDelete(data);
-                },
-              },
-            ]}
-          />
-        </>
+        <Handle
+          items={[
+            {
+              text: "编辑",
+              onClick: () => handleModal(HandleTypeEnum.EDIT, data),
+            },
+            {
+              text: "删除",
+              onClick: () => handleDelete(data),
+            },
+          ]}
+        />
       ),
     },
   ];
 
-  const handleSubmit = (data: DeptData) => {
-    console.log(data);
-    return data.id ? edit(data) : add(data);
-  };
+  const handleSubmit = (data: DeptData) => (data.id ? edit(data) : add(data));
 
   const { createConfirm } = useMessage();
+  const { runAsync: getUserList } = useRequest(
+    UserApi.fetchPage<UserField, UserData[]>,
+    {
+      manual: true,
+    }
+  );
   const handleDelete = (data: DeptData) => {
-    createConfirm({
-      type: "info",
-      content: `确定删除${data.name}？`,
-      onOk: () => {
-        const isDelete = 1;
-        return edit({ ...data, isDelete });
-      },
+    // 先判断部门下是否有员工
+    getUserList({ deptId: data.id }).then((res) => {
+      const hasUser = res.obj.total > 0;
+      const content = hasUser
+        ? `${data.name}下存在员工，请迁移后再删除！`
+        : `确定删除${data.name}？`;
+      createConfirm({
+        type: "info",
+        content,
+        onOk: () => {
+          if (!hasUser) {
+            const isDelete = 1;
+            return edit({ ...data, isDelete });
+          }
+        },
+      });
     });
   };
 
@@ -122,6 +132,7 @@ const SettingDeptPage: FC = () => {
         type={handleType}
         close={setModalFalse}
         submit={handleSubmit}
+        tree={queryData}
       />
     </div>
   );

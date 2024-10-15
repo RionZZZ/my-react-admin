@@ -7,6 +7,4 @@ export interface DeptData {
   isDelete: number;
 }
 
-export interface DeptField {
-  name: string;
-}
+export type DeptField = Partial<Pick<DeptData, "name">>;

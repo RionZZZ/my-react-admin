@@ -13,7 +13,6 @@ export interface UserData {
   deptId: number | null;
 }
 
-export interface LoginField {
-  userAccount: string;
-  userPassword: string;
-}
+export type LoginField = Pick<UserData, "userAccount" | "userPassword">;
+
+export type UserField = Partial<Pick<UserData, "userName" | "deptId">>;
