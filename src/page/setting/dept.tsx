@@ -43,22 +43,18 @@ const SettingDeptPage: FC = () => {
       title: "操作",
       key: "handle",
       render: (_, data) => (
-        <>
-          <Handle
-            items={[
-              {
-                text: "编辑",
-                onClick: () => handleModal(HandleTypeEnum.EDIT, data),
-              },
-              {
-                text: "删除",
-                onClick: () => {
-                  handleDelete(data);
-                },
-              },
-            ]}
-          />
-        </>
+        <Handle
+          items={[
+            {
+              text: "编辑",
+              onClick: () => handleModal(HandleTypeEnum.EDIT, data),
+            },
+            {
+              text: "删除",
+              onClick: () => handleDelete(data),
+            },
+          ]}
+        />
       ),
     },
   ];
@@ -70,6 +66,8 @@ const SettingDeptPage: FC = () => {
 
   const { createConfirm } = useMessage();
   const handleDelete = (data: DeptData) => {
+    // 先判断部门下是否有员工
+    
     createConfirm({
       type: "info",
       content: `确定删除${data.name}？`,
@@ -122,6 +120,7 @@ const SettingDeptPage: FC = () => {
         type={handleType}
         close={setModalFalse}
         submit={handleSubmit}
+        tree={queryData}
       />
     </div>
   );

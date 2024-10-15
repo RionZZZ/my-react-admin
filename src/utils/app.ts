@@ -13,3 +13,27 @@ export const searchRoute = (
   }
   return null;
 };
+
+interface Tree {
+  id: number;
+  disabled: boolean;
+  [k: string]: unknown;
+}
+export const formatTreeData = (
+  tree: Tree[] = [],
+  childrenField: keyof Tree,
+  id?: number | undefined | null
+) => {
+  if (id) {
+    tree.forEach((item) => {
+      item.disabled = false;
+      if (item.id === id) {
+        item.disabled = true;
+        item[childrenField] = null;
+      } else if ((item[childrenField] as Tree[])?.length) {
+        formatTreeData(item[childrenField] as Tree[], childrenField, id);
+      }
+    });
+  }
+  return tree;
+};
