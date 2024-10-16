@@ -1,5 +1,6 @@
 import { Button, Card, Form, Space } from "antd";
 import { FC, ReactNode } from "react";
+import useCustomStyles from "@/style/custom";
 
 interface PropState {
   children: ReactNode;
@@ -14,9 +15,15 @@ const Search: FC<PropState> = ({ children, add, query }) => {
     form.resetFields();
     query();
   };
+  const { styles: customStyles } = useCustomStyles();
   return (
     <Card>
-      <Form layout="inline" form={form} onFinish={query}>
+      <Form
+        layout="inline"
+        className={customStyles.searchForm}
+        form={form}
+        onFinish={query}
+      >
         {children}
         <Form.Item>
           <Space>

@@ -1,16 +1,18 @@
-import { GenderEnum } from "./enums";
+import { DeleteEnum, GenderEnum, UserStatusEnum } from "./enums";
 
 export interface UserData {
   id: number | null;
   userPassword: string;
   userName: string;
   userAccount: string;
-  status: number | null;
+  status: UserStatusEnum;
   roleId: number | null;
   phone: string | null;
   email: string | null;
   sex: GenderEnum | null;
   deptId: number | null;
+  isDelete: DeleteEnum;
+  createTime: string;
 }
 
 export type LoginField = Pick<UserData, "userAccount" | "userPassword">;

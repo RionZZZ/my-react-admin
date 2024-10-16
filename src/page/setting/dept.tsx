@@ -127,6 +127,7 @@ const SettingDeptPage: FC = () => {
         />
       </Card>
       <DeptModal
+        title="部门"
         modalVisible={modalVisible}
         initialData={modalData}
         type={handleType}

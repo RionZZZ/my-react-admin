@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { SelfRouteObject } from "@/router/types";
 
 export const searchRoute = (
@@ -36,4 +37,13 @@ export const formatTreeData = (
     });
   }
   return tree;
+};
+
+export const formatTime = (time: string) => {
+  const data = dayjs(time);
+  return data.format("YYYY-MM-DD HH:mm:ss");
+};
+export const formatDate = (time?: string) => {
+  const data = dayjs(time);
+  return data.format("YYYY-MM-DD");
 };

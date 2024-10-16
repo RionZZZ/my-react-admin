@@ -7,10 +7,18 @@ export default createStyles(({ token, css, prefixCls }) => ({
       margin-top: ${token.padding}px;
     }
   `,
+  searchForm: css`
+    .ant-form-item-control {
+      width: 180px;
+    }
+  `,
   treeExpand: {
     marginRight: "10px",
   },
   hideExpand: {
     visibility: "hidden",
+  },
+  modalForm: {
+    padding: token.padding,
   },
 }));
