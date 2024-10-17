@@ -3,12 +3,14 @@ import { HandleTypeEnum } from "@/types/enums/type";
 import { useBoolean, useRequest } from "ahooks";
 import { useState } from "react";
 import { useMessage } from "./useMessage";
+import { Pagination } from "@/types/http";
 
-export const useCRUD = <T, P>(api: CRUD) => {
+export const useCRUD = <T, P>(api: CRUD, fetchData?: () => void) => {
   const { createMessage } = useMessage();
 
   //请求相关
   const [queryData, setQueryData] = useState<P[]>();
+  const [total, setTotal] = useState(0);
 
   // 全部数据请求
   const { run: queryList, loading: queryLoading } = useRequest(
@@ -24,11 +26,12 @@ export const useCRUD = <T, P>(api: CRUD) => {
   );
   // 分页数据请求
   const { run: queryPage, loading: pageLoading } = useRequest(
-    api.fetchPage<T, P[]>,
+    api.fetchPage<T & Pagination, P[]>,
     {
       manual: true,
       onSuccess: (res) => {
         if (res.code === 0) {
+          setTotal(res.obj.total);
           setQueryData(res.obj.list);
         }
       },
@@ -50,7 +53,7 @@ export const useCRUD = <T, P>(api: CRUD) => {
       if (res.code === 0) {
         createMessage.success(res.msg);
         setModalFalse();
-        queryPage();
+        fetchData?.();
       }
     },
   });
@@ -65,7 +68,7 @@ export const useCRUD = <T, P>(api: CRUD) => {
       if (res.code === 0) {
         createMessage.success(res.msg);
         setModalFalse();
-        queryPage();
+        fetchData?.();
       }
     },
   });
@@ -87,6 +90,7 @@ export const useCRUD = <T, P>(api: CRUD) => {
     queryData,
     queryLoading,
     pageLoading,
+    total,
     edit,
     editAsync,
     editLoading,

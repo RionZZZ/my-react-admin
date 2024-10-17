@@ -1,8 +1,17 @@
 import { useCRUD } from "@/hooks/useCRUD";
 import { DeptApi, UserApi } from "@/service";
 import { UserData, UserField } from "@/types/user";
-import { Card, Form, Input, Switch, Table, TableProps, TreeSelect } from "antd";
-import { FC, useEffect } from "react";
+import {
+  Card,
+  Form,
+  Input,
+  PaginationProps,
+  Switch,
+  Table,
+  TableProps,
+  TreeSelect,
+} from "antd";
+import { FC, useEffect, useState } from "react";
 import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
 import { HandleTypeEnum } from "@/types/enums/type";
@@ -12,13 +21,15 @@ import UserModal from "./components/UserModal";
 import { DeptData } from "@/types/dept";
 import { formatDate } from "@/utils/app";
 import { md5 } from "@/utils/encrypt";
-import { DEFAULT_PWD } from "@/config";
+import { DEFAULT_PWD, paginationConfig } from "@/config";
+import { PaginationArea } from "@/component/pagination";
 
 const SettingUserPage: FC = () => {
   const {
     queryPage,
     queryData,
     pageLoading: loading,
+    total,
     edit,
     add,
     modalVisible,
@@ -26,10 +37,27 @@ const SettingUserPage: FC = () => {
     handleType,
     modalData,
     handleModal,
-  } = useCRUD<UserField, UserData>(UserApi);
+  } = useCRUD<UserField, UserData>(UserApi, () => fetchData());
   useEffect(() => {
-    queryPage();
-  }, [queryPage]);
+    fetchData();
+  }, []);
+
+  const [searchForm, setSearchForm] = useState<UserField>({});
+  const [pageNum, setPageNum] = useState(1);
+  const [pageSize, setPageSize] = useState(paginationConfig.pageSize);
+
+  const fetchSearchData = (params: UserField = {}) => {
+    setPageNum(1);
+    setSearchForm(params);
+    queryPage({ ...params, pageNum: 1, pageSize });
+  };
+  const fetchData = () => queryPage({ ...searchForm, pageNum, pageSize });
+
+  const handlePageChange: PaginationProps["onChange"] = (num, size) => {
+    setPageNum(num);
+    setPageSize(size);
+    queryPage({ ...searchForm, pageNum: num, pageSize: size });
+  };
 
   const { queryPage: queryDept, queryData: queryDeptData } = useCRUD<
     null,
@@ -144,7 +172,10 @@ const SettingUserPage: FC = () => {
   const { styles: customStyles } = useCustomStyles();
   return (
     <div className={customStyles.containerWrapper}>
-      <Search query={queryPage} add={() => handleModal(HandleTypeEnum.ADD)}>
+      <Search
+        query={fetchSearchData}
+        add={() => handleModal(HandleTypeEnum.ADD)}
+      >
         <Form.Item<UserField> label="姓名" name="userName">
           <Input placeholder="请输入姓名" />
         </Form.Item>
@@ -162,9 +193,15 @@ const SettingUserPage: FC = () => {
           columns={columns}
           dataSource={queryData as UserData[]}
           rowKey="id"
-          pagination={false}
           loading={loading}
           scroll={{ x: "max-content" }}
+          pagination={false}
+        />
+        <PaginationArea
+          total={total}
+          pageSize={pageSize}
+          pageNum={pageNum}
+          handlePageChange={handlePageChange}
         />
       </Card>
       <UserModal
