@@ -6,6 +6,7 @@ import useCustomStyles from "@/style/custom";
 
 interface PropState {
   children: ReactNode;
+  handleSubmitData?: (data: any) => any;
 }
 
 declare function HandleModalType<T>(
@@ -19,6 +20,7 @@ const HandleModal: typeof HandleModalType = ({
   initialData,
   close,
   submit,
+  handleSubmitData,
   children,
 }) => {
   const formatTitle = {
@@ -38,7 +40,9 @@ const HandleModal: typeof HandleModalType = ({
   };
 
   const handleSubmit = (params: object) => {
-    submit(Object.assign({}, initialData, params));
+    submit(
+      Object.assign({}, initialData, handleSubmitData?.(params) ?? params)
+    );
   };
 
   const { styles: customStyles } = useCustomStyles();

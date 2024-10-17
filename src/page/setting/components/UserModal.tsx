@@ -1,9 +1,11 @@
 import { FC } from "react";
-import { Form, Input, Radio, TreeSelect } from "antd";
+import { Form, Input, Radio, Switch, TreeSelect } from "antd";
 import { UserData } from "@/types/user";
 import { HandleModal } from "@/component/handle";
 import { ModalPropState } from "@/types";
 import { DeptData } from "@/types/dept";
+import { md5 } from "@/utils/encrypt";
+import { DEFAULT_PWD } from "@/config";
 
 interface PropState {
   tree?: DeptData[];
@@ -12,14 +14,20 @@ const GenderOptions = [
   { label: "男", value: 1 },
   { label: "女", value: 0 },
 ];
-const StatusOptions = [
-  { label: "停用", value: 0 },
-  { label: "启用", value: 1 },
-];
 
 const UserModal: FC<ModalPropState<UserData> & PropState> = (props) => {
+  const handleSubmitData = (data: UserData) => {
+    const status = data.status ? 1 : 0;
+    if (!data.id) {
+      // 创建默认密码
+      data.userPassword = md5(DEFAULT_PWD);
+      // 默认角色1
+      data.roleId = 1;
+    }
+    return { ...data, status };
+  };
   return (
-    <HandleModal<UserData> {...props}>
+    <HandleModal<UserData> {...props} handleSubmitData={handleSubmitData}>
       <Form.Item<UserData>
         label="姓名"
         name="userName"
@@ -55,7 +63,7 @@ const UserModal: FC<ModalPropState<UserData> & PropState> = (props) => {
         <Input placeholder="请输入邮箱" />
       </Form.Item>
       <Form.Item<UserData> label="状态" name="status">
-        <Radio.Group options={StatusOptions} />
+        <Switch checkedChildren="启用" unCheckedChildren="停用" />
       </Form.Item>
     </HandleModal>
   );

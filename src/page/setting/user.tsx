@@ -1,7 +1,7 @@
 import { useCRUD } from "@/hooks/useCRUD";
 import { DeptApi, UserApi } from "@/service";
 import { UserData, UserField } from "@/types/user";
-import { Card, Form, Input, Table, TableProps, TreeSelect } from "antd";
+import { Card, Form, Input, Switch, Table, TableProps, TreeSelect } from "antd";
 import { FC, useEffect } from "react";
 import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
@@ -72,6 +72,21 @@ const SettingUserPage: FC = () => {
       render: (time) => formatDate(time),
     },
     {
+      title: "状态",
+      dataIndex: "status",
+      key: "status",
+      render: (status, data) => (
+        <Switch
+          value={status === 1}
+          checkedChildren="启用"
+          unCheckedChildren="停用"
+          onChange={(val) => {
+            edit({ ...data, status: val ? 1 : 0 });
+          }}
+        />
+      ),
+    },
+    {
       title: "操作",
       key: "handle",
       fixed: "right",
@@ -96,7 +111,9 @@ const SettingUserPage: FC = () => {
     },
   ];
 
-  const handleSubmit = (data: UserData) => (data.id ? edit(data) : add(data));
+  const handleSubmit = (data: UserData) => {
+    data.id ? edit(data) : add(data);
+  };
 
   const { createConfirm } = useMessage();
   const handleDelete = (data: UserData) => {
