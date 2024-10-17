@@ -11,6 +11,8 @@ import { useMessage } from "@/hooks/useMessage";
 import UserModal from "./components/UserModal";
 import { DeptData } from "@/types/dept";
 import { formatDate } from "@/utils/app";
+import { md5 } from "@/utils/encrypt";
+import { DEFAULT_PWD } from "@/config";
 
 const SettingUserPage: FC = () => {
   const {
@@ -119,7 +121,7 @@ const SettingUserPage: FC = () => {
   const handleDelete = (data: UserData) => {
     const content = `确定删除${data.userName}？`;
     createConfirm({
-      type: "info",
+      type: "warning",
       content,
       onOk: () => {
         const isDelete = 1;
@@ -127,7 +129,17 @@ const SettingUserPage: FC = () => {
       },
     });
   };
-  const handleResetPwd = (data: UserData) => {};
+  const handleResetPwd = (data: UserData) => {
+    const content = `确定给${data.userName}重置密码？`;
+    createConfirm({
+      type: "warning",
+      content,
+      onOk: () => {
+        const userPassword = md5(DEFAULT_PWD);
+        return edit({ ...data, userPassword });
+      },
+    });
+  };
 
   const { styles: customStyles } = useCustomStyles();
   return (

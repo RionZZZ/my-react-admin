@@ -78,7 +78,7 @@ const SettingDeptPage: FC = () => {
         ? `${data.name}下存在员工，请迁移后再删除！`
         : `确定删除${data.name}？`;
       createConfirm({
-        type: "info",
+        type: "warning",
         content,
         onOk: () => {
           if (!hasUser) {
