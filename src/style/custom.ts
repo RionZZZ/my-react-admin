@@ -21,4 +21,7 @@ export default createStyles(({ token, css, prefixCls }) => ({
   modalForm: {
     padding: token.padding,
   },
+  pagination: {
+    marginTop: token.margin,
+  },
 }));
