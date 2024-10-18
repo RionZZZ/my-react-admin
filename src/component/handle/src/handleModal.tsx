@@ -7,6 +7,7 @@ import useCustomStyles from "@/style/custom";
 interface PropState {
   children: ReactNode;
   handleSubmitData?: (data: any) => any;
+  formatData?: (data: any) => any;
 }
 
 declare function HandleModalType<T>(
@@ -21,6 +22,7 @@ const HandleModal: typeof HandleModalType = ({
   close,
   submit,
   handleSubmitData,
+  formatData,
   children,
 }) => {
   const formatTitle = {
@@ -33,6 +35,7 @@ const HandleModal: typeof HandleModalType = ({
 
   useEffect(() => {
     form.setFieldsValue({ ...initialData });
+    formatData?.(form);
   }, [form, initialData]);
 
   const handleAfterClose = () => {

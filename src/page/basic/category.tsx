@@ -1,19 +1,19 @@
 import { useCRUD } from "@/hooks/useCRUD";
-import { DeptApi, UserApi } from "@/service";
-import { DeptData, DeptField } from "@/types/dept";
+import { CategoryApi, UserApi } from "@/service";
+import { CategoryData, CategoryField } from "@/types/category";
 import { CaretDownOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { Card, Form, Input, Table, TableProps } from "antd";
 import { FC, useEffect } from "react";
 import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
-import DeptModal from "./components/deptModal";
+import CategoryModal from "./components/categoryModal";
 import { HandleTypeEnum } from "@/types/enums/type";
 import { HandleButton } from "@/component/handle";
 import { useMessage } from "@/hooks/useMessage";
 import { useRequest } from "ahooks";
 import { UserField, UserData } from "@/types/user";
 
-const SettingDeptPage: FC = () => {
+const BasicCategoryPage: FC = () => {
   const {
     queryPage,
     queryData,
@@ -25,19 +25,19 @@ const SettingDeptPage: FC = () => {
     handleType,
     modalData,
     handleModal,
-  } = useCRUD<DeptField, DeptData>(DeptApi, () => queryPage());
+  } = useCRUD<CategoryField, CategoryData>(CategoryApi, () => queryPage());
   useEffect(() => {
     queryPage();
   }, [queryPage]);
 
-  const columns: TableProps<DeptData>["columns"] = [
+  const columns: TableProps<CategoryData>["columns"] = [
     {
-      title: "部门名称",
+      title: "资产分类名称",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "上级部门",
+      title: "上级分类",
       dataIndex: "parentName",
       key: "parentName",
     },
@@ -61,9 +61,8 @@ const SettingDeptPage: FC = () => {
     },
   ];
 
-  const handleSubmit = (data: DeptData) => {
+  const handleSubmit = (data: CategoryData) =>
     data.id ? edit(data) : add(data);
-  };
 
   const { createConfirm } = useMessage();
   const { runAsync: getUserList } = useRequest(
@@ -72,12 +71,12 @@ const SettingDeptPage: FC = () => {
       manual: true,
     }
   );
-  const handleDelete = (data: DeptData) => {
-    // 先判断部门下是否有员工
+  const handleDelete = (data: CategoryData) => {
+    // 先判断分类下是否有资产
     getUserList({ deptId: data.id }).then((res) => {
       const hasUser = res.obj.total > 0;
       const content = hasUser
-        ? `${data.name}下存在员工，请迁移后再删除！`
+        ? `${data.name}下存在资产，请迁移后再删除！`
         : `确定删除${data.name}？`;
       createConfirm({
         type: "warning",
@@ -96,19 +95,19 @@ const SettingDeptPage: FC = () => {
   return (
     <div className={customStyles.containerWrapper}>
       <Search query={queryPage} add={() => handleModal(HandleTypeEnum.ADD)}>
-        <Form.Item<DeptField> label="部门名称" name="name">
-          <Input placeholder="请输入部门名称" />
+        <Form.Item<CategoryField> label="资产分类名称" name="name">
+          <Input placeholder="请输入资产分类名称" />
         </Form.Item>
       </Search>
       <Card bordered={false}>
-        <Table<DeptData>
+        <Table<CategoryData>
           columns={columns}
-          dataSource={queryData as DeptData[]}
+          dataSource={queryData as CategoryData[]}
           rowKey="id"
           pagination={false}
           loading={loading}
           expandable={{
-            childrenColumnName: "deptList",
+            childrenColumnName: "assetClassList",
             expandIcon: ({ expanded, onExpand, record }) =>
               expanded ? (
                 <CaretDownOutlined
@@ -119,7 +118,7 @@ const SettingDeptPage: FC = () => {
                 <CaretRightOutlined
                   className={customCx(
                     customStyles.treeExpand,
-                    (!record.deptList || !record.deptList.length) &&
+                    (!record.assetClassList || !record.assetClassList.length) &&
                       customStyles.hideExpand
                   )}
                   onClick={(e) => onExpand(record, e)}
@@ -128,8 +127,8 @@ const SettingDeptPage: FC = () => {
           }}
         />
       </Card>
-      <DeptModal
-        title="部门"
+      <CategoryModal
+        title="资产"
         modalVisible={modalVisible}
         initialData={modalData}
         type={handleType}
@@ -141,4 +140,4 @@ const SettingDeptPage: FC = () => {
   );
 };
 
-export default SettingDeptPage;
+export default BasicCategoryPage;

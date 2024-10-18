@@ -8,7 +8,7 @@ const SettingRoute: SelfRouteObject = {
   element: <GuardLayout />,
   meta: {
     title: "系统设置",
-    orderNo: 4,
+    orderNo: 5,
     icon: "SettingOutlined",
   },
   children: [
