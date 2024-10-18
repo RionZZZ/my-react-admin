@@ -1,12 +1,12 @@
 import { useCRUD } from "@/hooks/useCRUD";
-import { CategoryApi, UserApi } from "@/service";
-import { CategoryData, CategoryField } from "@/types/category";
+import { AreaApi, UserApi } from "@/service";
+import { AreaData, AreaField } from "@/types/area";
 import { CaretDownOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { Card, Form, Input, PaginationProps, Table, TableProps } from "antd";
 import { FC, useEffect, useState } from "react";
 import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
-import CategoryModal from "./components/categoryModal";
+import AreaModal from "./components/areaModal";
 import { HandleTypeEnum } from "@/types/enums/type";
 import { HandleButton } from "@/component/handle";
 import { useMessage } from "@/hooks/useMessage";
@@ -15,7 +15,7 @@ import { UserField, UserData } from "@/types/user";
 import { paginationConfig } from "@/config";
 import { PaginationArea } from "@/component/pagination";
 
-const BasicCategoryPage: FC = () => {
+const BasicAreaPage: FC = () => {
   const {
     queryPage,
     queryData,
@@ -28,7 +28,7 @@ const BasicCategoryPage: FC = () => {
     handleType,
     modalData,
     handleModal,
-  } = useCRUD<CategoryField, CategoryData>(CategoryApi, () => fetchData());
+  } = useCRUD<AreaField, AreaData>(AreaApi, () => fetchData());
   useEffect(() => {
     fetchData();
   }, []);
@@ -49,14 +49,14 @@ const BasicCategoryPage: FC = () => {
     setPageSize(size);
     queryPage({ ...searchForm, pageNum: num, pageSize: size });
   };
-  const columns: TableProps<CategoryData>["columns"] = [
+  const columns: TableProps<AreaData>["columns"] = [
     {
-      title: "资产分类名称",
+      title: "区域名称",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "上级分类",
+      title: "上级区域",
       dataIndex: "parentName",
       key: "parentName",
     },
@@ -80,8 +80,7 @@ const BasicCategoryPage: FC = () => {
     },
   ];
 
-  const handleSubmit = (data: CategoryData) =>
-    data.id ? edit(data) : add(data);
+  const handleSubmit = (data: AreaData) => (data.id ? edit(data) : add(data));
 
   const { createConfirm } = useMessage();
   const { runAsync: getUserList } = useRequest(
@@ -90,7 +89,7 @@ const BasicCategoryPage: FC = () => {
       manual: true,
     }
   );
-  const handleDelete = (data: CategoryData) => {
+  const handleDelete = (data: AreaData) => {
     // 先判断分类下是否有资产
     getUserList({ deptId: data.id }).then((res) => {
       const hasUser = res.obj.total > 0;
@@ -117,19 +116,19 @@ const BasicCategoryPage: FC = () => {
         query={fetchSearchData}
         add={() => handleModal(HandleTypeEnum.ADD)}
       >
-        <Form.Item<CategoryField> label="资产分类名称" name="name">
-          <Input placeholder="请输入资产分类名称" />
+        <Form.Item<AreaField> label="区域名称" name="name">
+          <Input placeholder="请输入区域名称" />
         </Form.Item>
       </Search>
       <Card bordered={false}>
-        <Table<CategoryData>
+        <Table<AreaData>
           columns={columns}
-          dataSource={queryData as CategoryData[]}
+          dataSource={queryData as AreaData[]}
           rowKey="id"
           pagination={false}
           loading={loading}
           expandable={{
-            childrenColumnName: "assetClassList",
+            childrenColumnName: "areaList",
             expandIcon: ({ expanded, onExpand, record }) =>
               expanded ? (
                 <CaretDownOutlined
@@ -140,7 +139,7 @@ const BasicCategoryPage: FC = () => {
                 <CaretRightOutlined
                   className={customCx(
                     customStyles.treeExpand,
-                    (!record.assetClassList || !record.assetClassList.length) &&
+                    (!record.areaList || !record.areaList.length) &&
                       customStyles.hideExpand
                   )}
                   onClick={(e) => onExpand(record, e)}
@@ -155,7 +154,7 @@ const BasicCategoryPage: FC = () => {
           handlePageChange={handlePageChange}
         />
       </Card>
-      <CategoryModal
+      <AreaModal
         title="资产"
         modalVisible={modalVisible}
         initialData={modalData}
@@ -168,4 +167,4 @@ const BasicCategoryPage: FC = () => {
   );
 };
 
-export default BasicCategoryPage;
+export default BasicAreaPage;
