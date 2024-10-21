@@ -141,9 +141,7 @@ const SettingUserPage: FC = () => {
     },
   ];
 
-  const handleSubmit = (data: UserData) => {
-    data.id ? edit(data) : add(data);
-  };
+  const handleSubmit = (data: UserData) => (data.id ? edit(data) : add(data));
 
   const { createConfirm } = useMessage();
   const handleDelete = (data: UserData) => {

@@ -61,10 +61,7 @@ const SettingDeptPage: FC = () => {
     },
   ];
 
-  const handleSubmit = (data: DeptData) => {
-    data.id ? edit(data) : add(data);
-  };
-
+  const handleSubmit = (data: DeptData) => (data.id ? edit(data) : add(data));
   const { createConfirm } = useMessage();
   const { runAsync: getUserList } = useRequest(
     UserApi.fetchPage<UserField, UserData[]>,

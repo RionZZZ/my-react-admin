@@ -1,5 +1,5 @@
 import { useCRUD } from "@/hooks/useCRUD";
-import { CategoryApi, UserApi } from "@/service";
+import { AssetApi, CategoryApi } from "@/service";
 import { CategoryData, CategoryField } from "@/types/category";
 import { CaretDownOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { Card, Form, Input, PaginationProps, Table, TableProps } from "antd";
@@ -11,7 +11,6 @@ import { HandleTypeEnum } from "@/types/enums/type";
 import { HandleButton } from "@/component/handle";
 import { useMessage } from "@/hooks/useMessage";
 import { useRequest } from "ahooks";
-import { UserField, UserData } from "@/types/user";
 import { paginationConfig } from "@/config";
 import { PaginationArea } from "@/component/pagination";
 
@@ -33,11 +32,11 @@ const BasicCategoryPage: FC = () => {
     fetchData();
   }, []);
 
-  const [searchForm, setSearchForm] = useState<UserField>({});
+  const [searchForm, setSearchForm] = useState<CategoryField>({});
   const [pageNum, setPageNum] = useState(1);
   const [pageSize, setPageSize] = useState(paginationConfig.pageSize);
 
-  const fetchSearchData = (params: UserField = {}) => {
+  const fetchSearchData = (params: CategoryField = {}) => {
     setPageNum(1);
     setSearchForm(params);
     queryPage({ ...params, pageNum: 1, pageSize });
@@ -84,16 +83,13 @@ const BasicCategoryPage: FC = () => {
     data.id ? edit(data) : add(data);
 
   const { createConfirm } = useMessage();
-  const { runAsync: getUserList } = useRequest(
-    UserApi.fetchPage<UserField, UserData[]>,
-    {
-      manual: true,
-    }
-  );
+  const { runAsync: getAssetList } = useRequest(AssetApi.search, {
+    manual: true,
+  });
   const handleDelete = (data: CategoryData) => {
     // 先判断分类下是否有资产
-    getUserList({ deptId: data.id }).then((res) => {
-      const hasUser = res.obj.total > 0;
+    getAssetList({ assetClassId: data.id }).then((res) => {
+      const hasUser = res.obj.length > 0;
       const content = hasUser
         ? `${data.name}下存在资产，请迁移后再删除！`
         : `确定删除${data.name}？`;
