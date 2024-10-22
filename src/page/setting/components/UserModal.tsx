@@ -1,23 +1,32 @@
 import { FC } from "react";
-import { Form, Input, Radio, Switch, TreeSelect } from "antd";
+import { Form, FormInstance, Input, Radio, Switch, TreeSelect } from "antd";
 import { UserData } from "@/types/user";
 import { HandleModal } from "@/component/handle";
 import { ModalPropState } from "@/types";
 import { DeptData } from "@/types/dept";
 import { md5 } from "@/utils/encrypt";
 import { DEFAULT_PWD } from "@/config";
+import { GenderEnum, UserStatusEnum } from "@/types/enums";
 
 interface PropState {
   tree?: DeptData[];
 }
 const GenderOptions = [
-  { label: "男", value: 1 },
-  { label: "女", value: 0 },
+  { label: "男", value: GenderEnum.MALE },
+  { label: "女", value: GenderEnum.FEMALE },
 ];
 
 const UserModal: FC<ModalPropState<UserData> & PropState> = (props) => {
+  const formatData = (form: FormInstance) => {
+    if (props.initialData) {
+      form.setFieldValue(
+        "status",
+        props.initialData.status === UserStatusEnum.ENABLE ? true : false
+      );
+    }
+  };
   const handleSubmitData = (data: UserData) => {
-    const status = data.status ? 1 : 0;
+    const status = data.status ? UserStatusEnum.ENABLE : UserStatusEnum.DISABLE;
     if (!data.id) {
       // 创建默认密码
       data.userPassword = md5(DEFAULT_PWD);
@@ -27,7 +36,11 @@ const UserModal: FC<ModalPropState<UserData> & PropState> = (props) => {
     return { ...data, status };
   };
   return (
-    <HandleModal<UserData> {...props} handleSubmitData={handleSubmitData}>
+    <HandleModal<UserData>
+      {...props}
+      handleSubmitData={handleSubmitData}
+      formatData={formatData}
+    >
       <Form.Item<UserData>
         label="姓名"
         name="userName"

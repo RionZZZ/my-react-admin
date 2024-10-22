@@ -23,6 +23,7 @@ import { formatDate } from "@/utils/app";
 import { md5 } from "@/utils/encrypt";
 import { DEFAULT_PWD, paginationConfig } from "@/config";
 import { PaginationArea } from "@/component/pagination";
+import { DeleteEnum, UserStatusEnum } from "@/types/enums";
 
 const SettingUserPage: FC = () => {
   const {
@@ -107,11 +108,14 @@ const SettingUserPage: FC = () => {
       key: "status",
       render: (status, data) => (
         <Switch
-          value={status === 1}
+          value={status === UserStatusEnum.ENABLE}
           checkedChildren="启用"
           unCheckedChildren="停用"
           onChange={(val) => {
-            edit({ ...data, status: val ? 1 : 0 });
+            edit({
+              ...data,
+              status: val ? UserStatusEnum.ENABLE : UserStatusEnum.DISABLE,
+            });
           }}
         />
       ),
@@ -150,7 +154,7 @@ const SettingUserPage: FC = () => {
       type: "warning",
       content,
       onOk: () => {
-        const isDelete = 1;
+        const isDelete = DeleteEnum.TRUE;
         return edit({ ...data, isDelete });
       },
     });

@@ -1,5 +1,5 @@
 import { SelfRouteObject } from "../types";
-import { BasicArea, BasicCategory } from "@/page/basic";
+import { BasicArea, BasicCategory, BasicLabel } from "@/page/basic";
 import { GuardLayout } from "../guard";
 
 const BasicRoute: SelfRouteObject = {
@@ -28,6 +28,15 @@ const BasicRoute: SelfRouteObject = {
       meta: {
         title: "区域管理",
         key: "basic-area",
+      },
+    },
+    {
+      path: "label",
+      name: "basicLabel",
+      Component: BasicLabel,
+      meta: {
+        title: "资产标签模板",
+        key: "basic-label",
       },
     },
   ],

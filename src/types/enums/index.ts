@@ -9,6 +9,16 @@ export enum DeleteEnum {
 }
 
 export enum UserStatusEnum {
-  DISABLE = 0,
-  ENABLE = 1,
+  ENABLE = 0,
+  DISABLE = 1,
+}
+
+export enum LabelTypeEnum {
+  BARCODE = 1,
+  QRCODE = 2,
+}
+
+export enum LabelSelectEnum {
+  SELECTED = 0,
+  UNSELECTED = 1,
 }

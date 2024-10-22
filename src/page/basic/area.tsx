@@ -13,6 +13,7 @@ import { useMessage } from "@/hooks/useMessage";
 import { useRequest } from "ahooks";
 import { paginationConfig } from "@/config";
 import { PaginationArea } from "@/component/pagination";
+import { DeleteEnum } from "@/types/enums";
 
 const BasicAreaPage: FC = () => {
   const {
@@ -97,7 +98,7 @@ const BasicAreaPage: FC = () => {
         content,
         onOk: () => {
           if (!hasUser) {
-            const isDelete = 1;
+            const isDelete = DeleteEnum.TRUE;
             return edit({ ...data, isDelete });
           }
         },

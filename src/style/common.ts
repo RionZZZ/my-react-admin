@@ -4,6 +4,9 @@ export default createStyles(() => ({
   flex: {
     display: "flex",
   },
+  flex1: {
+    flex: 1,
+  },
   flexCenter: {
     display: "flex",
     width: "100%",

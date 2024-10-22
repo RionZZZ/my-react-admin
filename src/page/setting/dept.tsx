@@ -12,6 +12,7 @@ import { HandleButton } from "@/component/handle";
 import { useMessage } from "@/hooks/useMessage";
 import { useRequest } from "ahooks";
 import { UserField, UserData } from "@/types/user";
+import { DeleteEnum } from "@/types/enums";
 
 const SettingDeptPage: FC = () => {
   const {
@@ -81,7 +82,7 @@ const SettingDeptPage: FC = () => {
         content,
         onOk: () => {
           if (!hasUser) {
-            const isDelete = 1;
+            const isDelete = DeleteEnum.TRUE;
             return edit({ ...data, isDelete });
           }
         },
