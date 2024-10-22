@@ -181,6 +181,7 @@ const SettingUserPage: FC = () => {
           <TreeSelect
             allowClear
             placeholder="请选择上级部门"
+            popupMatchSelectWidth={false}
             treeData={queryDeptData}
             fieldNames={{ label: "name", value: "id", children: "deptList" }}
           />
