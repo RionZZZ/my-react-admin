@@ -17,7 +17,7 @@ const AssetRoute: SelfRouteObject = {
       name: "AssetList",
       Component: AssetList,
       meta: {
-        title: "资源列表",
+        title: "资产列表",
         key: "asset-list",
       },
     },

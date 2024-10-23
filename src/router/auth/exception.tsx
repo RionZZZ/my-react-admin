@@ -1,7 +1,7 @@
 import { SelfRouteObject } from "../types";
 import { GuardLayout } from "../guard";
 import ExceptionPage from "@/page/exception";
-import { ExceptionEnum } from "@/types/enums/exception";
+import { ExceptionEnum } from "@/types/enums";
 
 const ExceptionRoute: SelfRouteObject = {
   path: "/exception",

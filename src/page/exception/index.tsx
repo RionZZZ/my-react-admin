@@ -1,4 +1,4 @@
-import { ExceptionEnum } from "@/types/enums/exception";
+import { ExceptionEnum } from "@/types/enums";
 import { Result, Button } from "antd";
 import { FC } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
@@ -14,7 +14,6 @@ const ExceptionPage: FC = () => {
   const { status } = useLoaderData() as { status: ExceptionEnum };
 
   console.log(status);
-  
 
   const onHomeClick = () => {
     navigate("/home");
