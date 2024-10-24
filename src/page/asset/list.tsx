@@ -9,7 +9,9 @@ import { HandleTypeEnum } from "@/types/enums/type";
 import { HandleButton } from "@/component/handle";
 import { paginationConfig } from "@/config";
 import { PaginationArea } from "@/component/pagination";
-import ListModal from "./components/listModal";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/store";
+import { setAsset } from "@/store/modules/asset";
 
 const AssetListPage: FC = () => {
   const {
@@ -17,13 +19,6 @@ const AssetListPage: FC = () => {
     queryData,
     pageLoading: loading,
     total,
-    edit,
-    add,
-    modalVisible,
-    setModalFalse,
-    handleType,
-    modalData,
-    handleModal,
   } = useCRUD<AssetField, AssetData>(AssetApi, () => fetchData());
   useEffect(() => {
     fetchData();
@@ -121,7 +116,7 @@ const AssetListPage: FC = () => {
           items={[
             {
               text: "编辑",
-              onClick: () => handleModal(HandleTypeEnum.EDIT, data),
+              onClick: () => handleEdit(data),
             },
             {
               text: "删除",
@@ -133,7 +128,18 @@ const AssetListPage: FC = () => {
     },
   ];
 
-  const handleSubmit = (data: AssetData) => (data.id ? edit(data) : add(data));
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const handleAdd = (data?: AssetData) => {
+    if (data) dispatch(setAsset(data));
+    navigate("/asset/handle/" + HandleTypeEnum.ADD, {
+      state: { copyId: data?.id },
+    });
+  };
+  const handleEdit = (data: AssetData) => {
+    dispatch(setAsset(data));
+    navigate("/asset/handle/" + HandleTypeEnum.EDIT);
+  };
 
   const handleDelete = (data: AssetData) => {
     console.log(data);
@@ -142,10 +148,7 @@ const AssetListPage: FC = () => {
   const { styles: customStyles } = useCustomStyles();
   return (
     <div className={customStyles.containerWrapper}>
-      <Search
-        query={fetchSearchData}
-        add={() => handleModal(HandleTypeEnum.ADD)}
-      >
+      <Search query={fetchSearchData} add={() => handleAdd()}>
         <Form.Item<AssetField> label="区域名称" name="name">
           <Input placeholder="请输入区域名称" />
         </Form.Item>
@@ -165,14 +168,6 @@ const AssetListPage: FC = () => {
           handlePageChange={handlePageChange}
         />
       </Card>
-      <ListModal
-        title="资产"
-        modalVisible={modalVisible}
-        initialData={modalData}
-        type={handleType}
-        close={setModalFalse}
-        submit={handleSubmit}
-      />
     </div>
   );
 };

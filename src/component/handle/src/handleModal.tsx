@@ -1,15 +1,17 @@
 import { ReactElement, ReactNode, useEffect } from "react";
-import { Form, Modal } from "antd";
+import { Form, FormInstance, Modal } from "antd";
 import { ModalPropState } from "@/types";
 import { HandleTypeEnum } from "@/types/enums/type";
 import useCustomStyles from "@/style/custom";
 
 interface PropState {
   children: ReactNode;
-  handleSubmitData?: (data: any) => any;
-  formatData?: (data: any) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleSubmitData?: (data: any) => void;
+  formatData?: (data: FormInstance) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare function HandleModalType<T>(
   props: PropState & ModalPropState<T>
 ): ReactElement;
@@ -36,7 +38,7 @@ const HandleModal: typeof HandleModalType = ({
   useEffect(() => {
     form.setFieldsValue({ ...initialData });
     formatData?.(form);
-  }, [form, initialData]);
+  }, [form, formatData, initialData]);
 
   const handleAfterClose = () => {
     form.resetFields();

@@ -5,7 +5,9 @@ import { useAppSelector } from "@/store";
 export const Guard = ({ children }: { children: ReactNode }) => {
   const whiteList: string[] = ["/login"];
   const { pathname } = useLocation();
-  const { id } = useAppSelector((state) => state.user);
+  const {
+    userInfo: { id },
+  } = useAppSelector((state) => state.user);
 
   if (!id) {
     if (whiteList.includes(pathname)) {

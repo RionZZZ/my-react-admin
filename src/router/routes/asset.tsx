@@ -1,6 +1,6 @@
 import { SelfRouteObject } from "../types";
 import { GuardLayout } from "../guard";
-import { AssetList } from "@/page/asset";
+import { AssetList, AssetHandle } from "@/page/asset";
 
 const AssetRoute: SelfRouteObject = {
   path: "/asset",
@@ -19,6 +19,15 @@ const AssetRoute: SelfRouteObject = {
       meta: {
         title: "资产列表",
         key: "asset-list",
+      },
+    },
+    {
+      path: "handle/:handle",
+      name: "AssetHandle",
+      Component: AssetHandle,
+      meta: {
+        title: "资产录入",
+        key: "asset-handle",
       },
     },
   ],

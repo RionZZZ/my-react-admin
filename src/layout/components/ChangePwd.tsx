@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Form, FormProps, Input, Modal } from "antd";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { UserData } from "@/types/user";
+import { UserData, UserState } from "@/types/user";
 import { md5 } from "@/utils/encrypt";
 import { useRequest } from "ahooks";
 import { UserApi } from "@/service";
@@ -17,11 +17,11 @@ const ChangePwd: FC<PropState> = (props) => {
   const { modalVisible, handleClose } = props;
 
   const [form] = Form.useForm();
-  const user = useAppSelector<UserData>((state) => state.user);
+  const { userInfo: user } = useAppSelector<UserState>((state) => state.user);
 
   const handleChangePwd: FormProps["onFinish"] = (values) => {
     const userPassword = md5(values.userPassword);
-    run({ ...user, userPassword });
+    run({ ...user!, userPassword });
   };
 
   const { createMessage } = useMessage();
@@ -52,7 +52,7 @@ const ChangePwd: FC<PropState> = (props) => {
       destroyOnClose
     >
       <Form form={form} labelCol={{ span: 5 }} onFinish={handleChangePwd}>
-        <Form.Item label="账号">{user.userAccount}</Form.Item>
+        <Form.Item label="账号">{user?.userAccount}</Form.Item>
         <Form.Item
           label="新密码"
           name="userPassword"

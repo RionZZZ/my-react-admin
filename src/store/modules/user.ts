@@ -1,17 +1,8 @@
-import { UserData } from "@/types/user";
+import { UserData, UserState } from "@/types/user";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: UserData = {
-  deptId: null,
-  email: null,
-  id: null,
-  phone: null,
-  roleId: null,
-  sex: null,
-  status: null,
-  userAccount: "",
-  userName: "",
-  userPassword: "",
+const initialState: UserState = {
+  userInfo: null,
 };
 
 const userSlice = createSlice({
@@ -19,7 +10,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, { payload }: { payload: UserData }) => {
-      return { ...state, ...payload };
+      state.userInfo = payload;
     },
     resetUser: () => {
       return { ...initialState };

@@ -13,8 +13,6 @@ const ExceptionPage: FC = () => {
   const navigate = useNavigate();
   const { status } = useLoaderData() as { status: ExceptionEnum };
 
-  console.log(status);
-
   const onHomeClick = () => {
     navigate("/home");
   };

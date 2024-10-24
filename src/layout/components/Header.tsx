@@ -21,7 +21,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { useMessage } from "@/hooks/useMessage";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { resetUser } from "@/store/modules/user";
-import { UserData } from "@/types/user";
+import { UserState } from "@/types/user";
 import ChangePwd from "./changePwd";
 import { useBoolean } from "ahooks";
 
@@ -47,7 +47,7 @@ const Header: FC = () => {
   const { styles } = useStyles();
   const { createConfirm } = useMessage();
   const dispatch = useAppDispatch();
-  const { userName } = useAppSelector<UserData>((state) => state.user);
+  const { userInfo } = useAppSelector<UserState>((state) => state.user);
 
   const [modalVisible, { setTrue: setModalTrue, setFalse: setModalFalse }] =
     useBoolean(false);
@@ -106,9 +106,13 @@ const Header: FC = () => {
       <Flex justify="space-between" align="center" className={styles.header}>
         <Breadcrumb items={breadcrumbItems} />
         <Space>
-          {userName}
+          {userInfo?.userName}
           <Divider type="vertical" className={styles.divider} />
-          <Dropdown menu={{ items, onClick }} placement="bottom"  overlayStyle={{ width: 'max-content' }} >
+          <Dropdown
+            menu={{ items, onClick }}
+            placement="bottom"
+            overlayStyle={{ width: "max-content" }}
+          >
             <Avatar icon={<UserOutlined />} />
           </Dropdown>
         </Space>

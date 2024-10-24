@@ -5,7 +5,7 @@ export interface AssetData {
   name: string;
   assetClassId: number | null;
   positionId: number | null;
-  isDelete: DeleteEnum;
+  isDelete: DeleteEnum | null;
   createTime: string;
   remark?: string;
   model: string;
@@ -17,14 +17,18 @@ export interface AssetData {
   deptId: number | null;
   adminId: number | null;
   userId: number | null;
-  assetSource: AssetSourceEnum;
+  assetSource: AssetSourceEnum | null;
   buyDate: string;
   supplier: string;
   timeLimit: string;
-  status: AssetStatusEnum;
+  status: AssetStatusEnum | null;
   assetClassName: string;
   deptName: string;
   labelId: string;
+}
+
+export interface AssetState {
+  assetInfo: Nullable<AssetData>;
 }
 
 export type AssetSearchField = Partial<
