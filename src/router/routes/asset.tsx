@@ -28,6 +28,7 @@ const AssetRoute: SelfRouteObject = {
       meta: {
         title: "资产录入",
         key: "asset-handle",
+        hideMenu: true,
       },
     },
   ],
