@@ -24,4 +24,7 @@ export default createStyles(() => ({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  fullWidth: {
+    width: "100%",
+  },
 }));

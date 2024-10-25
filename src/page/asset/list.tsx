@@ -103,8 +103,8 @@ const AssetListPage: FC = () => {
 
     {
       title: "所属管理员",
-      dataIndex: "adminId",
-      key: "adminId",
+      dataIndex: "adminName",
+      key: "adminName",
     },
 
     {

@@ -12,10 +12,10 @@ export default class CRUD {
   */
 
   fetchList = <T, P>(params?: T) =>
-    http.get<T, Result<P>>(`${this.url}/getList`, params);
+    http.get<T, Result<P[]>>(`${this.url}/getList`, params);
 
   fetchPage = <T, P>(params?: T) =>
-    http.get<T, Result<PageResult<P>>>(`${this.url}/page`, params);
+    http.get<T, Result<PageResult<P[]>>>(`${this.url}/page`, params);
 
   create = <T, P>(data: T) => http.post<T, Result<P>>(`${this.url}/add`, data);
 

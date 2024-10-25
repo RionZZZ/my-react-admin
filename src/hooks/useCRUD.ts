@@ -14,7 +14,7 @@ export const useCRUD = <T, P>(api: CRUD, fetchData?: () => void) => {
 
   // 全部数据请求
   const { run: queryList, loading: queryLoading } = useRequest(
-    api.fetchList<T, P[]>,
+    api.fetchList<T, P>,
     {
       manual: true,
       onSuccess: (res) => {
@@ -26,7 +26,7 @@ export const useCRUD = <T, P>(api: CRUD, fetchData?: () => void) => {
   );
   // 分页数据请求
   const { run: queryPage, loading: pageLoading } = useRequest(
-    api.fetchPage<T & Pagination, P[]>,
+    api.fetchPage<T & Pagination, P>,
     {
       manual: true,
       onSuccess: (res) => {

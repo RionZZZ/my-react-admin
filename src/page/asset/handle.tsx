@@ -1,11 +1,30 @@
 import { useAppDispatch, useAppSelector } from "@/store";
 import { clearAsset } from "@/store/modules/asset";
-import { AssetState } from "@/types/asset";
+import { AssetData, AssetState } from "@/types/asset";
 import { HandleTypeEnum } from "@/types/enums/type";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useCustomStyles from "@/style/custom";
-import { Button, Form, Space } from "antd";
+import useCommonStyles from "@/style/common";
+import useStyles from "./style";
+import {
+  Button,
+  Card,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Row,
+  Select,
+  Space,
+  Typography,
+} from "antd";
+import { useBoolean, useRequest } from "ahooks";
+import { AreaApi, CategoryApi, DeptApi, UserApi } from "@/service";
+import { CategoryData } from "@/types/category";
+import { DeptData } from "@/types/dept";
+import { AreaData } from "@/types/area";
+import { UserData } from "@/types/user";
 
 const AssetHandlePage: FC = () => {
   const { handle } = useParams();
@@ -30,25 +49,227 @@ const AssetHandlePage: FC = () => {
     };
   }, [assetInfo, handle, state]);
 
-  const navigate = useNavigate();
+  const [loading, { setFalse: setLoadingFalse }] = useBoolean(true);
+  const [category, setCategory] = useState<CategoryData[]>();
+  const [dept, setDept] = useState<DeptData[]>();
+  const [area, setArea] = useState<AreaData[]>();
+  const [user, setUser] = useState<UserData[]>();
+  // 资产分类
+  const { runAsync: getCategoryTree } = useRequest(
+    CategoryApi.fetchList<null, CategoryData>,
+    {
+      manual: true,
+      onSuccess: (res) => {
+        if (res.code === 0) {
+          setCategory(res.obj);
+        }
+      },
+    }
+  );
+  // 存放区域
+  const { runAsync: getAreaTree } = useRequest(
+    AreaApi.fetchList<null, AreaData>,
+    {
+      manual: true,
+      onSuccess: (res) => {
+        if (res.code === 0) {
+          setArea(res.obj);
+        }
+      },
+    }
+  );
+  // 所属组织
+  const { runAsync: getDeptTree } = useRequest(
+    DeptApi.fetchList<null, DeptData>,
+    {
+      manual: true,
+      onSuccess: (res) => {
+        if (res.code === 0) {
+          setDept(res.obj);
+        }
+      },
+    }
+  );
+  // 所属管理员
+  const { runAsync: getUserList } = useRequest(
+    UserApi.fetchList<null, UserData>,
+    {
+      manual: true,
+      onSuccess: (res) => {
+        if (res.code === 0) {
+          setUser(res.obj);
+        }
+      },
+    }
+  );
 
+  Promise.all([getCategoryTree, getAreaTree, getDeptTree, getUserList]).finally(
+    () => setLoadingFalse()
+  );
+
+  const navigate = useNavigate();
   const [form] = Form.useForm();
-  const handleSubmit = () => {};
+
+  const handleSubmit = (data: AssetData) => {
+    console.log(data);
+  };
 
   const onCancel = () => {
     navigate(-1);
   };
 
   const { styles: customStyles } = useCustomStyles();
+  const { styles: commonStyles, cx } = useCommonStyles();
+  const { styles } = useStyles();
   return (
     <div className={customStyles.containerWrapper}>
-      <Form form={form} onFinish={handleSubmit}>
-        <Form.Item>
+      <Form form={form} onFinish={handleSubmit} labelCol={{ span: 8 }}>
+        <Card bordered={false}>
+          <Form.Item noStyle>
+            <Typography.Title level={4}>基本信息</Typography.Title>
+          </Form.Item>
+          <Row>
+            <Col span={7}>
+              <Form.Item<AssetData>
+                label="资产分类"
+                name="assetClassId"
+                rules={[{ required: true, message: "请选择资产分类！" }]}
+              >
+                <Select placeholder="请选择资产分类" />
+              </Form.Item>
+            </Col>
+            <Col offset={1} span={7}>
+              <Form.Item<AssetData>
+                label="资产名称"
+                name="name"
+                rules={[{ required: true, message: "请输入资产名称！" }]}
+              >
+                <Input placeholder="请输入资产名称" />
+              </Form.Item>
+            </Col>
+            <Col offset={1} span={7}>
+              <Form.Item<AssetData> label="规格型号" name="model">
+                <Input placeholder="请输入规格型号" />
+              </Form.Item>
+            </Col>
+            <Col span={7}>
+              <Form.Item<AssetData> label="品牌名" name="brand">
+                <Input placeholder="请输入品牌名" />
+              </Form.Item>
+            </Col>
+            <Col offset={1} span={7}>
+              <Form.Item<AssetData> label="计量单位" name="unit">
+                <Input placeholder="请输入计量单位" />
+              </Form.Item>
+            </Col>
+            <Col offset={1} span={7}>
+              <Form.Item<AssetData> label="价值" name="assetValue">
+                <Input placeholder="请输入价值" />
+              </Form.Item>
+            </Col>
+            <Col span={7}>
+              <Form.Item<AssetData> label="序列号" name="serialNumber">
+                <Input placeholder="请输入序列号" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Card>
+        <Card bordered={false}>
+          <Form.Item noStyle>
+            <Typography.Title level={4}>使用信息</Typography.Title>
+          </Form.Item>
+          <Row>
+            <Col span={7}>
+              <Form.Item<AssetData>
+                label="存放区域"
+                name="positionId"
+                rules={[{ required: true, message: "请选择存放区域！" }]}
+              >
+                <Select placeholder="请选择存放区域" />
+              </Form.Item>
+            </Col>
+            <Col offset={1} span={7}>
+              <Form.Item<AssetData>
+                label="所属组织"
+                name="deptId"
+                rules={[{ required: true, message: "请选择所属组织！" }]}
+              >
+                <Select placeholder="请选择所属组织" />
+              </Form.Item>
+            </Col>
+            <Col offset={1} span={7}>
+              <Form.Item<AssetData>
+                label="所属管理员"
+                name="adminId"
+                rules={[{ required: true, message: "请选择所属管理员！" }]}
+              >
+                <Select placeholder="请选择所属管理员" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Card>
+        <Card bordered={false}>
+          <Form.Item noStyle>
+            <Typography.Title level={4}>购入信息</Typography.Title>
+          </Form.Item>
+          <Row gutter={30}>
+            <Col span={7}>
+              <Form.Item<AssetData> label="资产来源" name="assetSource">
+                <Select placeholder="请选择资产来源" />
+              </Form.Item>
+            </Col>
+            <Col offset={1} span={7}>
+              <Form.Item<AssetData> label="供应商" name="supplier">
+                <Input placeholder="请输入供应商" />
+              </Form.Item>
+            </Col>
+            <Col offset={1} span={7}>
+              <Form.Item<AssetData> label="购入日期" name="buyDate">
+                <DatePicker
+                  placeholder="请选择购入日期"
+                  className={commonStyles.fullWidth}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={7}>
+              <Form.Item label="生产日期" name="date1">
+                <DatePicker
+                  placeholder="请选择生产日期"
+                  className={commonStyles.fullWidth}
+                />
+              </Form.Item>
+            </Col>
+            <Col offset={1} span={7}>
+              <Form.Item label="质保期(月)" name="date2">
+                <Input placeholder="请输入质保期(月)" />
+              </Form.Item>
+            </Col>
+            <Col offset={1} span={7}>
+              <Form.Item<AssetData> label="使用期限（月）" name="timeLimit">
+                <Input placeholder="请输入使用期限（月）" />
+              </Form.Item>
+            </Col>
+            <Col span={7}>
+              <Form.Item label="临期日期" name="date3">
+                <DatePicker
+                  placeholder="请选择临期日期"
+                  className={commonStyles.fullWidth}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Card>
+        <Form.Item
+          className={cx(
+            commonStyles.justifyContentEnd,
+            styles.handleButtonArea
+          )}
+        >
           <Space size="large">
-            <Button type="default" onClick={onCancel}>
+            <Button type="default" size="large" onClick={onCancel}>
               取消
             </Button>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" size="large" htmlType="submit">
               保存
             </Button>
           </Space>
