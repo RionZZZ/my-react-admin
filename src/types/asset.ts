@@ -16,11 +16,16 @@ export interface AssetData {
   position: string;
   deptId: number | null;
   adminId: number | null;
+  adminName: string;
   userId: number | null;
+  userName: string;
   assetSource: AssetSourceEnum | null;
   buyDate: string;
+  expireDate: string;
+  productDate: string;
   supplier: string;
   timeLimit: string;
+  warrantyLimit: string;
   status: AssetStatusEnum | null;
   assetClassName: string;
   deptName: string;

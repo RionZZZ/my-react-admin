@@ -38,9 +38,9 @@ export enum AssetStatusEnum {
 }
 
 export enum AssetSourceEnum {
-  PURCHASE = 1,
-  LEASE = 2,
-  BUILD = 3,
-  DONATION = 4,
-  OTHER = 5,
+  PURCHASE = "1",
+  LEASE = "2",
+  BUILD = "3",
+  DONATION = "4",
+  OTHER = "5",
 }
