@@ -17,7 +17,7 @@ import { Search } from "@/component/search";
 import { HandleTypeEnum } from "@/types/enums/type";
 import { HandleButton } from "@/component/handle";
 import { useMessage } from "@/hooks/useMessage";
-import UserModal from "./components/UserModal";
+import UserModal from "./components/userModal";
 import { DeptData } from "@/types/dept";
 import { formatDate } from "@/utils/app";
 import { md5 } from "@/utils/encrypt";

@@ -17,14 +17,16 @@ import {
   Row,
   Select,
   Space,
+  Spin,
+  TreeSelect,
   Typography,
 } from "antd";
 import { useBoolean, useRequest } from "ahooks";
-import { AreaApi, CategoryApi, DeptApi, UserApi } from "@/service";
+import { AreaApi, CategoryApi, DeptApi } from "@/service";
 import { CategoryData } from "@/types/category";
 import { DeptData } from "@/types/dept";
 import { AreaData } from "@/types/area";
-import { UserData } from "@/types/user";
+import { UserSearch } from "@/component/userSearch";
 
 const AssetHandlePage: FC = () => {
   const { handle } = useParams();
@@ -53,7 +55,6 @@ const AssetHandlePage: FC = () => {
   const [category, setCategory] = useState<CategoryData[]>();
   const [dept, setDept] = useState<DeptData[]>();
   const [area, setArea] = useState<AreaData[]>();
-  const [user, setUser] = useState<UserData[]>();
   // 资产分类
   const { runAsync: getCategoryTree } = useRequest(
     CategoryApi.fetchList<null, CategoryData>,
@@ -90,22 +91,12 @@ const AssetHandlePage: FC = () => {
       },
     }
   );
-  // 所属管理员
-  const { runAsync: getUserList } = useRequest(
-    UserApi.fetchList<null, UserData>,
-    {
-      manual: true,
-      onSuccess: (res) => {
-        if (res.code === 0) {
-          setUser(res.obj);
-        }
-      },
-    }
-  );
 
-  Promise.all([getCategoryTree, getAreaTree, getDeptTree, getUserList]).finally(
-    () => setLoadingFalse()
-  );
+  useEffect(() => {
+    Promise.all([getCategoryTree(), getAreaTree(), getDeptTree()]).finally(() =>
+      setLoadingFalse()
+    );
+  }, [getAreaTree, getCategoryTree, getDeptTree, setLoadingFalse]);
 
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -122,7 +113,7 @@ const AssetHandlePage: FC = () => {
   const { styles: commonStyles, cx } = useCommonStyles();
   const { styles } = useStyles();
   return (
-    <div className={customStyles.containerWrapper}>
+    <Spin spinning={loading} className={customStyles.containerWrapper}>
       <Form form={form} onFinish={handleSubmit} labelCol={{ span: 8 }}>
         <Card bordered={false}>
           <Form.Item noStyle>
@@ -135,7 +126,16 @@ const AssetHandlePage: FC = () => {
                 name="assetClassId"
                 rules={[{ required: true, message: "请选择资产分类！" }]}
               >
-                <Select placeholder="请选择资产分类" />
+                <TreeSelect
+                  placeholder="请选择资产分类"
+                  treeData={category}
+                  fieldNames={{
+                    label: "name",
+                    value: "id",
+                    children: "assetClassList",
+                  }}
+                  allowClear
+                />
               </Form.Item>
             </Col>
             <Col offset={1} span={7}>
@@ -185,7 +185,16 @@ const AssetHandlePage: FC = () => {
                 name="positionId"
                 rules={[{ required: true, message: "请选择存放区域！" }]}
               >
-                <Select placeholder="请选择存放区域" />
+                <TreeSelect
+                  placeholder="请选择存放区域"
+                  treeData={area}
+                  fieldNames={{
+                    label: "name",
+                    value: "id",
+                    children: "areaList",
+                  }}
+                  allowClear
+                />
               </Form.Item>
             </Col>
             <Col offset={1} span={7}>
@@ -194,7 +203,16 @@ const AssetHandlePage: FC = () => {
                 name="deptId"
                 rules={[{ required: true, message: "请选择所属组织！" }]}
               >
-                <Select placeholder="请选择所属组织" />
+                <TreeSelect
+                  placeholder="请选择所属组织"
+                  treeData={dept}
+                  fieldNames={{
+                    label: "name",
+                    value: "id",
+                    children: "deptList",
+                  }}
+                  allowClear
+                />
               </Form.Item>
             </Col>
             <Col offset={1} span={7}>
@@ -203,7 +221,7 @@ const AssetHandlePage: FC = () => {
                 name="adminId"
                 rules={[{ required: true, message: "请选择所属管理员！" }]}
               >
-                <Select placeholder="请选择所属管理员" />
+                <UserSearch placeholder="请选择所属管理员" />
               </Form.Item>
             </Col>
           </Row>
@@ -245,8 +263,8 @@ const AssetHandlePage: FC = () => {
               </Form.Item>
             </Col>
             <Col offset={1} span={7}>
-              <Form.Item<AssetData> label="使用期限（月）" name="timeLimit">
-                <Input placeholder="请输入使用期限（月）" />
+              <Form.Item<AssetData> label="使用期限(月)" name="timeLimit">
+                <Input placeholder="请输入使用期限(月)" />
               </Form.Item>
             </Col>
             <Col span={7}>
@@ -275,7 +293,7 @@ const AssetHandlePage: FC = () => {
           </Space>
         </Form.Item>
       </Form>
-    </div>
+    </Spin>
   );
 };
 

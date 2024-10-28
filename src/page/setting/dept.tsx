@@ -65,14 +65,14 @@ const SettingDeptPage: FC = () => {
   const handleSubmit = (data: DeptData) => (data.id ? edit(data) : add(data));
   const { createConfirm } = useMessage();
   const { runAsync: getUserList } = useRequest(
-    UserApi.fetchPage<UserField, UserData[]>,
+    UserApi.fetchPage<UserField, UserData>,
     {
       manual: true,
     }
   );
   const handleDelete = (data: DeptData) => {
     // 先判断部门下是否有员工
-    getUserList({ deptId: data.id }).then((res) => {
+    getUserList({ deptId: data.id! }).then((res) => {
       const hasUser = res.obj.total > 0;
       const content = hasUser
         ? `${data.name}下存在员工，请迁移后再删除！`
