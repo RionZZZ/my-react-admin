@@ -1,20 +1,19 @@
 import { useCRUD } from "@/hooks/useCRUD";
 import { AssetApi } from "@/service";
 import { AssetData, AssetField } from "@/types/asset";
-import { Card, Form, Input, PaginationProps, Table, TableProps } from "antd";
-import { FC, useEffect, useRef, useState } from "react";
+import { Card, Form, Input, PaginationProps, TableProps } from "antd";
+import { FC, useEffect, useState } from "react";
 import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
 import { HandleTypeEnum } from "@/types/enums/type";
 import { HandleButton } from "@/component/handle";
 import { paginationConfig } from "@/config";
-import { PaginationArea } from "@/component/pagination";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/store";
 import { setAsset } from "@/store/modules/asset";
 import { useMessage } from "@/hooks/useMessage";
 import { DeleteEnum } from "@/types/enums";
-import { getTableScroll } from "@/utils/table";
+import { ScrollTable } from "@/component/table";
 
 const AssetListPage: FC = () => {
   const {
@@ -103,6 +102,7 @@ const AssetListPage: FC = () => {
       title: "所属组织",
       dataIndex: "deptName",
       key: "deptName",
+      ellipsis: true,
     },
 
     {
@@ -163,14 +163,6 @@ const AssetListPage: FC = () => {
   };
 
   const { styles: customStyles } = useCustomStyles();
-  const [scrollY, setScrollY] = useState("");
-  useEffect(() => {
-    setTimeout(() => {
-      console.log(getTableScroll());
-
-      setScrollY(getTableScroll());
-    }, 2000);
-  }, []);
   return (
     <div className={customStyles.containerWrapper}>
       <Search query={fetchSearchData} add={() => handleAdd()}>
@@ -179,19 +171,20 @@ const AssetListPage: FC = () => {
         </Form.Item>
       </Search>
       <Card bordered={false}>
-        <Table<AssetData>
-          columns={columns}
-          dataSource={queryData as AssetData[]}
-          rowKey="id"
-          pagination={false}
-          loading={loading}
-          scroll={{ y: scrollY }}
-        />
-        <PaginationArea
-          total={total}
-          pageSize={pageSize}
-          pageNum={pageNum}
-          handlePageChange={handlePageChange}
+        <ScrollTable<AssetData>
+          tableProps={{
+            columns,
+            dataSource: queryData,
+            rowKey: "id",
+            loading,
+            pagination: false,
+          }}
+          paginationProps={{
+            total,
+            pageSize,
+            pageNum,
+            handlePageChange,
+          }}
         />
       </Card>
     </div>

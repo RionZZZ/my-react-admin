@@ -1,8 +1,9 @@
 import { PaginationArea } from "@/component/pagination";
 import { PaginationAreaProps } from "@/component/pagination/src/pagination";
 import { getTableScroll } from "@/utils/table";
+import { useUpdateLayoutEffect } from "ahooks";
 import { Table, TableProps } from "antd";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 
 interface ScrollTableProp<T> {
   tableProps: TableProps<T>;
@@ -16,18 +17,15 @@ const ScrollTable: typeof ScrollTableType = ({
   paginationProps,
 }) => {
   const [scrollY, setScrollY] = useState("");
-  useEffect(() => {
-    setScrollY(
-      getTableScroll({
-        pagination:
-          !!paginationProps && paginationProps.total > paginationProps.pageSize,
-      })
-    );
-  }, [paginationProps?.total, paginationProps?.pageSize]);
+  useUpdateLayoutEffect(() => {
+    if (!tableProps.loading) {
+      setScrollY(getTableScroll());
+    }
+  }, [tableProps.loading]);
 
   return (
     <>
-      <Table {...tableProps} scroll={{ x: "max-content", y: scrollY }} />
+      <Table {...tableProps} scroll={{ x: "100%", y: scrollY }} />
       {!tableProps.pagination && <PaginationArea {...paginationProps!} />}
     </>
   );
