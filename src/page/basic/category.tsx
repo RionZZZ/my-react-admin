@@ -2,7 +2,7 @@ import { useCRUD } from "@/hooks/useCRUD";
 import { AssetApi, CategoryApi } from "@/service";
 import { CategoryData, CategoryField } from "@/types/category";
 import { CaretDownOutlined, CaretRightOutlined } from "@ant-design/icons";
-import { Card, Form, Input, PaginationProps, Table, TableProps } from "antd";
+import { Card, Form, Input, PaginationProps, TableProps } from "antd";
 import { FC, useEffect, useState } from "react";
 import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
@@ -12,8 +12,8 @@ import { HandleButton } from "@/component/handle";
 import { useMessage } from "@/hooks/useMessage";
 import { useRequest } from "ahooks";
 import { paginationConfig } from "@/config";
-import { PaginationArea } from "@/component/pagination";
 import { DeleteEnum } from "@/types/enums";
+import { ScrollTable } from "@/component/table";
 
 const BasicCategoryPage: FC = () => {
   const {
@@ -119,37 +119,40 @@ const BasicCategoryPage: FC = () => {
         </Form.Item>
       </Search>
       <Card bordered={false}>
-        <Table<CategoryData>
-          columns={columns}
-          dataSource={queryData as CategoryData[]}
-          rowKey="id"
-          pagination={false}
-          loading={loading}
-          expandable={{
-            childrenColumnName: "assetClassList",
-            expandIcon: ({ expanded, onExpand, record }) =>
-              expanded ? (
-                <CaretDownOutlined
-                  className={customStyles.treeExpand}
-                  onClick={(e) => onExpand(record, e)}
-                />
-              ) : (
-                <CaretRightOutlined
-                  className={customCx(
-                    customStyles.treeExpand,
-                    (!record.assetClassList || !record.assetClassList.length) &&
-                      customStyles.hideExpand
-                  )}
-                  onClick={(e) => onExpand(record, e)}
-                />
-              ),
+        <ScrollTable<CategoryData>
+          tableProps={{
+            columns,
+            dataSource: queryData,
+            rowKey: "id",
+            loading,
+            pagination: false,
+            expandable: {
+              childrenColumnName: "assetClassList",
+              expandIcon: ({ expanded, onExpand, record }) =>
+                expanded ? (
+                  <CaretDownOutlined
+                    className={customStyles.treeExpand}
+                    onClick={(e) => onExpand(record, e)}
+                  />
+                ) : (
+                  <CaretRightOutlined
+                    className={customCx(
+                      customStyles.treeExpand,
+                      (!record.assetClassList ||
+                        !record.assetClassList.length) &&
+                        customStyles.hideExpand
+                    )}
+                    onClick={(e) => onExpand(record, e)}
+                  />
+                ),
+            },
           }}
-        />
-        <PaginationArea
-          total={total}
-          pageSize={pageSize}
-          pageNum={pageNum}
-          handlePageChange={handlePageChange}
+          paginationProps={{
+            total,
+            pageSize,
+            pageNum,
+            handlePageChange,
+          }}
         />
       </Card>
       <CategoryModal
