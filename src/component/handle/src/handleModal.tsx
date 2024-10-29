@@ -4,7 +4,7 @@ import { ModalPropState } from "@/types";
 import { HandleTypeEnum } from "@/types/enums/type";
 import useCustomStyles from "@/style/custom";
 
-interface PropState {
+interface HandleModalProps {
   children: ReactNode;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleSubmitData?: (data: any) => void;
@@ -13,7 +13,7 @@ interface PropState {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare function HandleModalType<T>(
-  props: PropState & ModalPropState<T>
+  props: HandleModalProps & ModalPropState<T>
 ): ReactElement;
 
 const HandleModal: typeof HandleModalType = ({

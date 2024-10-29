@@ -2,7 +2,7 @@ import { useCRUD } from "@/hooks/useCRUD";
 import { AssetApi } from "@/service";
 import { AssetData, AssetField } from "@/types/asset";
 import { Card, Form, Input, PaginationProps, Table, TableProps } from "antd";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
 import { HandleTypeEnum } from "@/types/enums/type";
@@ -12,6 +12,9 @@ import { PaginationArea } from "@/component/pagination";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/store";
 import { setAsset } from "@/store/modules/asset";
+import { useMessage } from "@/hooks/useMessage";
+import { DeleteEnum } from "@/types/enums";
+import { getTableScroll } from "@/utils/table";
 
 const AssetListPage: FC = () => {
   const {
@@ -19,6 +22,7 @@ const AssetListPage: FC = () => {
     queryData,
     pageLoading: loading,
     total,
+    edit,
   } = useCRUD<AssetField, AssetData>(AssetApi, () => fetchData());
   useEffect(() => {
     fetchData();
@@ -119,6 +123,10 @@ const AssetListPage: FC = () => {
               onClick: () => handleEdit(data),
             },
             {
+              text: "复制",
+              onClick: () => handleAdd(data),
+            },
+            {
               text: "删除",
               onClick: () => handleDelete(data),
             },
@@ -141,11 +149,28 @@ const AssetListPage: FC = () => {
     navigate("/asset/handle/" + HandleTypeEnum.EDIT);
   };
 
+  const { createConfirm } = useMessage();
   const handleDelete = (data: AssetData) => {
-    console.log(data);
+    const content = `确定删除${data.assetClassName}？`;
+    createConfirm({
+      type: "warning",
+      content,
+      onOk: () => {
+        const isDelete = DeleteEnum.TRUE;
+        return edit({ ...data, isDelete });
+      },
+    });
   };
 
   const { styles: customStyles } = useCustomStyles();
+  const [scrollY, setScrollY] = useState("");
+  useEffect(() => {
+    setTimeout(() => {
+      console.log(getTableScroll());
+
+      setScrollY(getTableScroll());
+    }, 2000);
+  }, []);
   return (
     <div className={customStyles.containerWrapper}>
       <Search query={fetchSearchData} add={() => handleAdd()}>
@@ -160,6 +185,7 @@ const AssetListPage: FC = () => {
           rowKey="id"
           pagination={false}
           loading={loading}
+          scroll={{ y: scrollY }}
         />
         <PaginationArea
           total={total}

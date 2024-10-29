@@ -3,14 +3,14 @@ import { paginationConfig } from "@/config";
 import { Pagination, PaginationProps } from "antd";
 import useCustomStyles from "@/style/custom";
 
-interface PropState {
+export interface PaginationAreaProps {
   total: number;
   pageSize: number;
   pageNum: number;
   handlePageChange: PaginationProps["onChange"];
 }
 
-const PaginationArea: FC<PropState> = ({
+const PaginationArea: FC<PaginationAreaProps> = ({
   total,
   pageSize,
   pageNum,

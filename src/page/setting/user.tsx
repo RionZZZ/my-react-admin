@@ -7,7 +7,6 @@ import {
   Input,
   PaginationProps,
   Switch,
-  Table,
   TableProps,
   TreeSelect,
 } from "antd";
@@ -22,8 +21,8 @@ import { DeptData } from "@/types/dept";
 import { formatDate } from "@/utils/app";
 import { md5 } from "@/utils/encrypt";
 import { DEFAULT_PWD, paginationConfig } from "@/config";
-import { PaginationArea } from "@/component/pagination";
 import { DeleteEnum, UserStatusEnum } from "@/types/enums";
+import { ScrollTable } from "@/component/table";
 
 const SettingUserPage: FC = () => {
   const {
@@ -172,6 +171,7 @@ const SettingUserPage: FC = () => {
   };
 
   const { styles: customStyles } = useCustomStyles();
+
   return (
     <div className={customStyles.containerWrapper}>
       <Search
@@ -179,7 +179,7 @@ const SettingUserPage: FC = () => {
         add={() => handleModal(HandleTypeEnum.ADD)}
       >
         <Form.Item<UserField> label="姓名" name="userName">
-          <Input placeholder="请输入姓名" />
+          <Input placeholder="请输入姓名" allowClear />
         </Form.Item>
         <Form.Item<UserField> label="部门" name="deptId">
           <TreeSelect
@@ -192,19 +192,20 @@ const SettingUserPage: FC = () => {
         </Form.Item>
       </Search>
       <Card bordered={false}>
-        <Table<UserData>
-          columns={columns}
-          dataSource={queryData as UserData[]}
-          rowKey="id"
-          loading={loading}
-          scroll={{ x: "max-content" }}
-          pagination={false}
-        />
-        <PaginationArea
-          total={total}
-          pageSize={pageSize}
-          pageNum={pageNum}
-          handlePageChange={handlePageChange}
+        <ScrollTable<UserData>
+          tableProps={{
+            columns,
+            dataSource: queryData,
+            rowKey: "id",
+            loading,
+            pagination: false,
+          }}
+          paginationProps={{
+            total,
+            pageSize,
+            pageNum,
+            handlePageChange,
+          }}
         />
       </Card>
       <UserModal

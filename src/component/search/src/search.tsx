@@ -2,13 +2,13 @@ import { Button, Card, Form, Space } from "antd";
 import { FC, ReactNode } from "react";
 import useCustomStyles from "@/style/custom";
 
-interface PropState {
+interface SearchProps {
   children: ReactNode;
   query: () => void;
   add: () => void;
 }
 
-const Search: FC<PropState> = ({ children, add, query }) => {
+const Search: FC<SearchProps> = ({ children, add, query }) => {
   const [form] = Form.useForm();
 
   const handleReset = () => {

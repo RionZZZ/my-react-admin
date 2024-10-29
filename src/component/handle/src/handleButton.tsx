@@ -6,11 +6,11 @@ interface HandleItem {
   type?: ButtonProps["color"];
   onClick: () => void;
 }
-interface PropState {
+interface HandleButtonProps {
   items: HandleItem[];
 }
 
-const HandleButton: FC<PropState> = ({ items }) => (
+const HandleButton: FC<HandleButtonProps> = ({ items }) => (
   <>
     {items.map((item, index) => (
       <Button

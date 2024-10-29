@@ -95,7 +95,7 @@ const SettingDeptPage: FC = () => {
     <div className={customStyles.containerWrapper}>
       <Search query={queryPage} add={() => handleModal(HandleTypeEnum.ADD)}>
         <Form.Item<DeptField> label="部门名称" name="name">
-          <Input placeholder="请输入部门名称" />
+          <Input placeholder="请输入部门名称" allowClear />
         </Form.Item>
       </Search>
       <Card bordered={false}>
