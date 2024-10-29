@@ -115,7 +115,7 @@ const BasicCategoryPage: FC = () => {
         add={() => handleModal(HandleTypeEnum.ADD)}
       >
         <Form.Item<CategoryField> label="资产分类名称" name="name">
-          <Input placeholder="请输入资产分类名称" />
+          <Input placeholder="请输入资产分类名称" allowClear />
         </Form.Item>
       </Search>
       <Card bordered={false}>

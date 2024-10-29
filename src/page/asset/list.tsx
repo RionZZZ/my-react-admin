@@ -1,7 +1,7 @@
 import { useCRUD } from "@/hooks/useCRUD";
 import { AssetApi } from "@/service";
 import { AssetData, AssetField } from "@/types/asset";
-import { Card, Form, Input, PaginationProps, TableProps } from "antd";
+import { Card, Form, Input, PaginationProps, Select, TableProps } from "antd";
 import { FC, useEffect, useState } from "react";
 import useCustomStyles from "@/style/custom";
 import { Search } from "@/component/search";
@@ -12,9 +12,17 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/store";
 import { setAsset } from "@/store/modules/asset";
 import { useMessage } from "@/hooks/useMessage";
-import { DeleteEnum } from "@/types/enums";
+import { AssetStatusEnum, DeleteEnum } from "@/types/enums";
 import { ScrollTable } from "@/component/table";
+import { AssetStatus } from "@/component/assetStatus";
 
+const StatusOptions = [
+  { label: "闲置", value: AssetStatusEnum.IDLE },
+  { label: "在用", value: AssetStatusEnum.INUSE },
+  { label: "借用", value: AssetStatusEnum.BORROW },
+  { label: "已处置", value: AssetStatusEnum.HANDLED },
+  { label: "维护", value: AssetStatusEnum.MAINTENANCE },
+];
 const AssetListPage: FC = () => {
   const {
     queryPage,
@@ -49,6 +57,9 @@ const AssetListPage: FC = () => {
       dataIndex: "status",
       key: "status",
       fixed: "left",
+      render: (status) => {
+        return <AssetStatus status={status} />;
+      },
     },
     {
       title: "资产编码",
@@ -166,8 +177,18 @@ const AssetListPage: FC = () => {
   return (
     <div className={customStyles.containerWrapper}>
       <Search query={fetchSearchData} add={() => handleAdd()}>
-        <Form.Item<AssetField> label="区域名称" name="name">
-          <Input placeholder="请输入区域名称" />
+        <Form.Item<AssetField> label="资产状态" name="status">
+          <Select
+            options={StatusOptions}
+            placeholder="请输入资产状态"
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item<AssetField> label="资产名称" name="name">
+          <Input placeholder="请输入资产名称" allowClear />
+        </Form.Item>
+        <Form.Item<AssetField> label="资产编码" name="id">
+          <Input placeholder="请输入资产编码" allowClear />
         </Form.Item>
       </Search>
       <Card bordered={false}>

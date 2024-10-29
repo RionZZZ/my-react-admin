@@ -114,7 +114,7 @@ const BasicAreaPage: FC = () => {
         add={() => handleModal(HandleTypeEnum.ADD)}
       >
         <Form.Item<AreaField> label="区域名称" name="name">
-          <Input placeholder="请输入区域名称" />
+          <Input placeholder="请输入区域名称" allowClear />
         </Form.Item>
       </Search>
       <Card bordered={false}>
