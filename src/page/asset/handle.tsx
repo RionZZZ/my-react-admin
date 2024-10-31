@@ -30,7 +30,7 @@ import { CategoryData } from "@/types/category";
 import { DeptData } from "@/types/dept";
 import { AreaData } from "@/types/area";
 import { UserSearch } from "@/component/userSearch";
-import { AssetSourceEnum } from "@/types/enums";
+import { AssetSourceEnum } from "@/types/enums/asset";
 import { useCRUD } from "@/hooks/useCRUD";
 import dayjs from "dayjs";
 import { CheckCircleOutlined } from "@ant-design/icons";

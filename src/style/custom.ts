@@ -12,6 +12,11 @@ export default createStyles(({ token, css, prefixCls }) => ({
       width: 180px;
     }
   `,
+  searchFormRange: css`
+    .ant-form-item-control {
+      width: 240px;
+    }
+  `,
   treeExpand: {
     marginRight: "10px",
   },

@@ -12,15 +12,16 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/store";
 import { setAsset } from "@/store/modules/asset";
 import { useMessage } from "@/hooks/useMessage";
-import { AssetStatusEnum, DeleteEnum } from "@/types/enums";
+import { DeleteEnum } from "@/types/enums";
 import { ScrollTable } from "@/component/table";
 import { AssetStatus } from "@/component/assetStatus";
+import { AssetStatusEnum } from "@/types/enums/asset";
 
 const StatusOptions = [
   { label: "闲置", value: AssetStatusEnum.IDLE },
-  { label: "在用", value: AssetStatusEnum.INUSE },
+  { label: "在用", value: AssetStatusEnum.RECEIVE },
   { label: "借用", value: AssetStatusEnum.BORROW },
-  { label: "已处置", value: AssetStatusEnum.HANDLED },
+  { label: "已处置", value: AssetStatusEnum.DISPOSAL },
   { label: "维护", value: AssetStatusEnum.MAINTENANCE },
 ];
 const AssetListPage: FC = () => {
@@ -102,26 +103,22 @@ const AssetListPage: FC = () => {
       dataIndex: "serialNumber",
       key: "serialNumber",
     },
-
     {
       title: "存放区域",
       dataIndex: "position",
       key: "position",
     },
-
     {
       title: "所属组织",
       dataIndex: "deptName",
       key: "deptName",
       ellipsis: true,
     },
-
     {
       title: "所属管理员",
       dataIndex: "adminName",
       key: "adminName",
     },
-
     {
       title: "操作",
       key: "handle",

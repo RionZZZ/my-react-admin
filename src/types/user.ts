@@ -12,7 +12,6 @@ export interface UserData {
   sex: GenderEnum;
   deptId: number;
   isDelete: DeleteEnum;
-  createTime: string;
 }
 
 export interface UserState {

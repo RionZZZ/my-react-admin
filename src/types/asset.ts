@@ -1,4 +1,5 @@
-import { AssetSourceEnum, AssetStatusEnum, DeleteEnum } from "./enums";
+import { DeleteEnum } from "./enums";
+import { AssetSourceEnum, AssetStatusEnum } from "./enums/asset";
 
 export interface AssetData {
   id: number | null;
@@ -6,7 +7,6 @@ export interface AssetData {
   assetClassId: number | null;
   positionId: number | null;
   isDelete: DeleteEnum | null;
-  createTime: string;
   remark?: string;
   model: string;
   brand: string;

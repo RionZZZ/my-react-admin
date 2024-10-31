@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { AssetStatusEnum } from "@/types/enums";
+import { AssetStatusEnum } from "@/types/enums/asset";
 import { Tag } from "antd";
 
 interface AssetStatusProps {
@@ -8,9 +8,9 @@ interface AssetStatusProps {
 
 const assetStatusMap = new Map([
   [AssetStatusEnum.IDLE, { label: "闲置", color: "volcano" }],
-  [AssetStatusEnum.INUSE, { label: "在用", color: "green" }],
+  [AssetStatusEnum.RECEIVE, { label: "在用", color: "green" }],
   [AssetStatusEnum.BORROW, { label: "借用", color: "green" }],
-  [AssetStatusEnum.HANDLED, { label: "已处置", color: "volcano" }],
+  [AssetStatusEnum.DISPOSAL, { label: "已处置", color: "volcano" }],
   [AssetStatusEnum.MAINTENANCE, { label: "维护", color: "volcano" }],
 ]);
 
