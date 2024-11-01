@@ -34,8 +34,8 @@ const UserSearch: FC<UserSearchProp & SelectProps> = ({
     }
   );
   const fetchUserList = (userName?: string) => {
-    getUserList({ userName, deptId: deptId ? +deptId : undefined }).then(
-      (res) => {
+    getUserList({ userName, deptId: deptId ? +deptId : undefined })
+      .then((res) => {
         if (res.code === 0) {
           setOptions(res.obj);
           setFetchFalse();
@@ -43,8 +43,11 @@ const UserSearch: FC<UserSearchProp & SelectProps> = ({
           setOptions([]);
           setFetchFalse();
         }
-      }
-    );
+      })
+      .catch(() => {
+        setOptions([]);
+        setFetchFalse();
+      });
   };
 
   useEffect(() => {

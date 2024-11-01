@@ -23,6 +23,7 @@ import { AreaApi, DeptApi } from "@/service";
 import { useBoolean, useRequest } from "ahooks";
 import { DeptData } from "@/types/dept";
 import { AreaData } from "@/types/area";
+import { ChooseAssetTable } from "@/component/chooseAsset";
 
 const AssetReceiveHandlePage: FC = () => {
   const [form] = Form.useForm();
@@ -167,10 +168,7 @@ const AssetReceiveHandlePage: FC = () => {
             </Row>
           </Card>
           <Card bordered={false}>
-            <Form.Item noStyle>
-              <Typography.Title level={4}>选择资产</Typography.Title>
-              
-            </Form.Item>
+            <ChooseAssetTable />
           </Card>
           <Form.Item
             className={cx(
