@@ -67,6 +67,7 @@ const ReceiveTab: FC = () => {
       title: "领用日期",
       dataIndex: "operationDate",
       key: "operationDate",
+      render: (time) => formatDate(time),
     },
     {
       title: "领用人",

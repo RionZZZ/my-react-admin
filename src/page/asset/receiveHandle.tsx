@@ -83,7 +83,7 @@ const AssetReceiveHandlePage: FC = () => {
   const { createMessage } = useMessage();
   const chooseAsset = useRef<ForwardedRefState>(null);
   const handleSubmit = (data: AssetHandleData) => {
-    const assets = chooseAsset.current?.getRowSelections();
+    const assets = chooseAsset.current?.chosenAssets;
     if (!assets?.length) {
       createMessage.warning("请在表格中勾选要领用的资产！");
       return;

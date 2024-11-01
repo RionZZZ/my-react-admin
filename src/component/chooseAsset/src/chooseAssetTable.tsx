@@ -14,7 +14,7 @@ import { useMessage } from "@/hooks/useMessage";
 import { TableRowSelection } from "antd/es/table/interface";
 
 export interface ForwardedRefState {
-  getRowSelections: () => AssetData[];
+  chosenAssets: AssetData[];
 }
 
 const ChooseAssetTable: ForwardRefRenderFunction<ForwardedRefState> = (
@@ -23,9 +23,7 @@ const ChooseAssetTable: ForwardRefRenderFunction<ForwardedRefState> = (
 ) => {
   useImperativeHandle(ref, () => {
     return {
-      getRowSelections() {
-        return chosenAssets;
-      },
+      chosenAssets,
     };
   });
 
