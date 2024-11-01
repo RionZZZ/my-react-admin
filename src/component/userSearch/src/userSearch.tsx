@@ -4,7 +4,16 @@ import { useBoolean, useDebounceFn, useRequest } from "ahooks";
 import { Empty, Select, SelectProps, Spin } from "antd";
 import { FC, useEffect, useState } from "react";
 
-const UserSearch: FC<SelectProps> = (props) => {
+interface UserSearchProp {
+  immediately?: boolean;
+  deptId?: string;
+}
+
+const UserSearch: FC<UserSearchProp & SelectProps> = ({
+  immediately,
+  deptId,
+  ...props
+}) => {
   const [fetching, { setFalse: setFetchFalse, setTrue: setFetchTrue }] =
     useBoolean(false);
   const [options, setOptions] = useState<UserData[]>([]);
@@ -25,19 +34,23 @@ const UserSearch: FC<SelectProps> = (props) => {
     }
   );
   const fetchUserList = (userName?: string) => {
-    getUserList({ userName }).then((res) => {
-      if (res.code === 0) {
-        setOptions(res.obj);
-        setFetchFalse();
-      } else {
-        setOptions([]);
-        setFetchFalse();
+    getUserList({ userName, deptId: deptId ? +deptId : undefined }).then(
+      (res) => {
+        if (res.code === 0) {
+          setOptions(res.obj);
+          setFetchFalse();
+        } else {
+          setOptions([]);
+          setFetchFalse();
+        }
       }
-    });
+    );
   };
 
   useEffect(() => {
-    fetchUserList();
+    if (immediately) {
+      fetchUserList();
+    }
   }, []);
 
   return (

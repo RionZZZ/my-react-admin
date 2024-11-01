@@ -142,7 +142,7 @@ const AssetHandlePage: FC = () => {
   const [openModal, { setTrue: setOpenTrue, setFalse: setOpenFalse }] =
     useBoolean(false);
   const { addAsync, editAsync } = useCRUD<unknown, AssetData>(AssetApi);
-  const handleSubmit = async (data: AssetData) => {
+  const handleSubmit = (data: AssetData) => {
     const submitData = {
       ...assetInfo,
       ...data,
@@ -181,8 +181,8 @@ const AssetHandlePage: FC = () => {
   };
 
   const { styles: customStyles } = useCustomStyles();
-  const { styles: commonStyles, cx } = useCommonStyles();
-  const { styles } = useStyles();
+  const { styles: commonStyles } = useCommonStyles();
+  const { styles, cx } = useStyles();
   return (
     <div className={customStyles.containerWrapper}>
       <Spin spinning={loading}>
@@ -293,7 +293,7 @@ const AssetHandlePage: FC = () => {
                   name="adminId"
                   rules={[{ required: true, message: "请选择所属管理员！" }]}
                 >
-                  <UserSearch placeholder="请选择所属管理员" />
+                  <UserSearch immediately placeholder="请选择所属管理员" />
                 </Form.Item>
               </Col>
             </Row>

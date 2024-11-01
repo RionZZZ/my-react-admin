@@ -1,6 +1,11 @@
 import { SelfRouteObject } from "../types";
 import { GuardLayout } from "../guard";
-import { AssetList, AssetHandle, AssetReceive } from "@/page/asset";
+import {
+  AssetList,
+  AssetHandle,
+  AssetReceive,
+  AssetReceiveHandle,
+} from "@/page/asset";
 
 const AssetRoute: SelfRouteObject = {
   path: "/asset",
@@ -38,6 +43,16 @@ const AssetRoute: SelfRouteObject = {
       meta: {
         title: "领用&退还",
         key: "asset-receive",
+      },
+    },
+    {
+      path: "receive-handle",
+      name: "AssetReceiveHandle",
+      Component: AssetReceiveHandle,
+      meta: {
+        title: "新增资产领用",
+        key: "receive-handle",
+        hideMenu: true,
       },
     },
   ],

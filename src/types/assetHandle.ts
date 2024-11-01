@@ -21,6 +21,8 @@ export interface AssetHandleData {
   type: AssetTypeEnum;
   userId: number;
   userName: string;
+  positionId: number;
+  position: string;
 }
 
 export interface AssetHandleItem {

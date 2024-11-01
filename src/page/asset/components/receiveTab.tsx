@@ -18,6 +18,7 @@ import { AssetHandleApi } from "@/service";
 import { AssetTypeEnum } from "@/types/enums/asset";
 import { paginationConfig } from "@/config";
 import { formatDate } from "@/utils/app";
+import { useNavigate } from "react-router-dom";
 
 const type = AssetTypeEnum.RECEIVE;
 const ReceiveTab: FC = () => {
@@ -78,6 +79,11 @@ const ReceiveTab: FC = () => {
       key: "deptName",
     },
     {
+      title: "存放区域",
+      dataIndex: "position",
+      key: "position",
+    },
+    {
       title: "创建时间",
       dataIndex: "createTime",
       key: "createTime",
@@ -105,7 +111,10 @@ const ReceiveTab: FC = () => {
     },
   ];
 
-  const handleAdd = () => {};
+  const navigate = useNavigate();
+  const handleAdd = () => {
+    navigate("/asset/receive-handle");
+  };
   const handleReturn = (data: AssetHandleData) => {
     console.log(data);
   };
@@ -129,7 +138,7 @@ const ReceiveTab: FC = () => {
           <Input placeholder="请输入领用单号" allowClear />
         </Form.Item>
         <Form.Item<AssetHandleField> label="领用人" name="userId">
-          <UserSearch placeholder="请选择领用人" allowClear />
+          <UserSearch immediately placeholder="请选择领用人" allowClear />
         </Form.Item>
       </Search>
       <Card bordered={false}>

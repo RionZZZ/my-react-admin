@@ -6,7 +6,11 @@ import { AssetTypeEnum } from "@/types/enums/asset";
 import ReceiveTab from "./components/receiveTab";
 
 const AssetReceivePage: FC = () => {
-  const [activeKey, setActiveKey] = useState();
+  const [activeKey, setActiveKey] = useState(AssetTypeEnum.RECEIVE);
+  const onTabChange = (key: string) => {
+    setActiveKey(key as AssetTypeEnum);
+  };
+
   const { styles: customStyles } = useCustomStyles();
   const { styles, cx } = useStyles();
   return (
@@ -14,6 +18,7 @@ const AssetReceivePage: FC = () => {
       className={cx(customStyles.containerWrapper, styles.tabs)}
       defaultActiveKey={`${AssetTypeEnum.RECEIVE}`}
       activeKey={activeKey}
+      onChange={onTabChange}
       size="large"
       items={[
         {
@@ -24,7 +29,7 @@ const AssetReceivePage: FC = () => {
         {
           label: "退还",
           key: `${AssetTypeEnum.RETURN}`,
-          children: "Tab 2",
+          children: <span>activeKey: {activeKey}</span>,
         },
       ]}
     />

@@ -15,12 +15,12 @@ export enum AssetSourceEnum {
 }
 
 export enum AssetTypeEnum {
-  RECEIVE = 0,
-  RETURN = 1,
-  BORROW = 2,
-  REVERT = 3,
-  DISPOSAL = 4,
-  MAINTENANCE = 5,
+  RECEIVE = "0",
+  RETURN = "1",
+  BORROW = "2",
+  REVERT = "3",
+  DISPOSAL = "4",
+  MAINTENANCE = "5",
 }
 
 export enum DisposalTypeEnum {
