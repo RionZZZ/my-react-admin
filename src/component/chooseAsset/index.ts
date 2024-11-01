@@ -1,3 +1,3 @@
-import ChooseAssetTable from "./src/chooseAssetTable";
+import ChooseAssetTable, { ForwardedRefState } from "./src/chooseAssetTable";
 
-export { ChooseAssetTable };
+export { ChooseAssetTable, type ForwardedRefState };

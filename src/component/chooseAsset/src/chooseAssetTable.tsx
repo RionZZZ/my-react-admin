@@ -1,13 +1,34 @@
 import { AssetData } from "@/types/asset";
 import { Button, Table, TableProps, Typography } from "antd";
-import { FC, useState } from "react";
+import {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useImperativeHandle,
+  useState,
+} from "react";
 import ChooseAssetModal from "./chooseAssetModal";
 import useCommonStyles from "@/style/common";
 import { PlusCircleFilled } from "@ant-design/icons";
 import { useBoolean } from "ahooks";
 import { useMessage } from "@/hooks/useMessage";
+import { TableRowSelection } from "antd/es/table/interface";
 
-const ChooseAssetTable: FC = () => {
+export interface ForwardedRefState {
+  getRowSelections: () => AssetData[];
+}
+
+const ChooseAssetTable: ForwardRefRenderFunction<ForwardedRefState> = (
+  _,
+  ref
+) => {
+  useImperativeHandle(ref, () => {
+    return {
+      getRowSelections() {
+        return chosenAssets;
+      },
+    };
+  });
+
   const [
     modalVisible,
     { setFalse: setModalVisibleFalse, setTrue: setModalVisibleTrue },
@@ -39,11 +60,21 @@ const ChooseAssetTable: FC = () => {
   const [assetData, setAssetData] = useState<AssetData[]>([]);
   const addAsset = (asset: AssetData) => {
     if (assetData.find((data) => data.id === asset.id)) {
-      createMessage.warning("列表中已存在选中的资产，请选择其他资产！");
+      createMessage.warning("列表中已存在选中的资产，请添加其他资产！");
       return;
     }
     setAssetData([...assetData, asset]);
     setModalVisibleFalse();
+  };
+
+  const [chosenAssets, setChosenAssets] = useState<AssetData[]>([]);
+  const onSelectionChange: TableRowSelection<AssetData>["onChange"] = (
+    keys,
+    rows
+  ) => {
+    console.log(keys);
+    console.log(rows);
+    setChosenAssets(rows);
   };
 
   const { styles: commonStyles } = useCommonStyles();
@@ -64,7 +95,7 @@ const ChooseAssetTable: FC = () => {
         dataSource={assetData as AssetData[]}
         rowKey="id"
         pagination={false}
-        rowSelection={{ type: "checkbox" }}
+        rowSelection={{ type: "checkbox", onChange: onSelectionChange }}
       />
       <ChooseAssetModal
         visible={modalVisible}
@@ -75,4 +106,4 @@ const ChooseAssetTable: FC = () => {
   );
 };
 
-export default ChooseAssetTable;
+export default forwardRef(ChooseAssetTable);

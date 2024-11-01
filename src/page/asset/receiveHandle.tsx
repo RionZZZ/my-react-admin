@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import useCustomStyles from "@/style/custom";
 import useCommonStyles from "@/style/common";
 import useStyles from "./style";
@@ -19,18 +19,24 @@ import { AssetHandleData } from "@/types/assetHandle";
 import dayjs from "dayjs";
 import { UserSearch } from "@/component/userSearch";
 import { useNavigate } from "react-router-dom";
-import { AreaApi, DeptApi } from "@/service";
+import { AreaApi, AssetHandleApi, DeptApi } from "@/service";
 import { useBoolean, useRequest } from "ahooks";
 import { DeptData } from "@/types/dept";
 import { AreaData } from "@/types/area";
-import { ChooseAssetTable } from "@/component/chooseAsset";
+import { ChooseAssetTable, ForwardedRefState } from "@/component/chooseAsset";
+import { useMessage } from "@/hooks/useMessage";
+import { AssetTypeEnum } from "@/types/enums/asset";
+import { useCRUD } from "@/hooks/useCRUD";
 
+const type = AssetTypeEnum.RECEIVE;
 const AssetReceiveHandlePage: FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const goList = () => {
     navigate("/asset/receive");
   };
+
+  const { addAsync } = useCRUD(AssetHandleApi);
 
   const [loading, { setFalse: setLoadingFalse }] = useBoolean(true);
   const [dept, setDept] = useState<DeptData[]>();
@@ -73,8 +79,22 @@ const AssetReceiveHandlePage: FC = () => {
     setDeptId(value);
     form.resetFields(["userId"]);
   };
+
+  const { createMessage } = useMessage();
+  const chooseAsset = useRef<ForwardedRefState>(null);
   const handleSubmit = (data: AssetHandleData) => {
-    console.log(data);
+    const list = chooseAsset.current?.getRowSelections();
+    if (!list?.length) {
+      createMessage.warning("请在表格中勾选要领用的资产！");
+      return;
+    }
+    const submitData = { ...data, type, list };
+    console.log(submitData);
+    addAsync(submitData).then((res) => {
+      if (res.code === 0) {
+        createMessage.success(res.msg);
+      }
+    });
   };
 
   const { styles: customStyles } = useCustomStyles();
@@ -168,7 +188,7 @@ const AssetReceiveHandlePage: FC = () => {
             </Row>
           </Card>
           <Card bordered={false}>
-            <ChooseAssetTable />
+            <ChooseAssetTable ref={chooseAsset} />
           </Card>
           <Form.Item
             className={cx(
