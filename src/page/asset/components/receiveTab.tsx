@@ -138,7 +138,7 @@ const ReceiveTab: FC = () => {
           <Input placeholder="请输入领用单号" allowClear />
         </Form.Item>
         <Form.Item<AssetHandleField> label="领用人" name="userId">
-          <UserSearch immediately placeholder="请选择领用人" allowClear />
+          <UserSearch placeholder="请选择领用人" allowClear />
         </Form.Item>
       </Search>
       <Card bordered={false}>

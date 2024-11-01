@@ -28,13 +28,13 @@ export interface AssetHandleData {
 export interface AssetHandleItem {
   assetId: number;
   brand: string;
-  id: number;
+  id?: number;
   model: string;
   name: string;
-  operationId: number;
-  remark: string;
+  operationId?: number;
+  remark?: string;
   status: AssetStatusEnum;
-  userId: number;
+  userId: number | null;
 }
 
 export type AssetHandleField = Partial<

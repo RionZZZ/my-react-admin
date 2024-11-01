@@ -69,11 +69,9 @@ const ChooseAssetTable: ForwardRefRenderFunction<ForwardedRefState> = (
 
   const [chosenAssets, setChosenAssets] = useState<AssetData[]>([]);
   const onSelectionChange: TableRowSelection<AssetData>["onChange"] = (
-    keys,
+    _,
     rows
   ) => {
-    console.log(keys);
-    console.log(rows);
     setChosenAssets(rows);
   };
 

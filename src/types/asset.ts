@@ -26,7 +26,7 @@ export interface AssetData {
   supplier: string;
   timeLimit: string;
   warrantyLimit: string;
-  status: AssetStatusEnum | null;
+  status: AssetStatusEnum
   assetClassName: string;
   deptName: string;
   labelId: string;

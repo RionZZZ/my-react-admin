@@ -15,7 +15,7 @@ import {
   TreeSelect,
   Typography,
 } from "antd";
-import { AssetHandleData } from "@/types/assetHandle";
+import { AssetHandleData, AssetHandleItem } from "@/types/assetHandle";
 import dayjs from "dayjs";
 import { UserSearch } from "@/component/userSearch";
 import { useNavigate } from "react-router-dom";
@@ -36,7 +36,7 @@ const AssetReceiveHandlePage: FC = () => {
     navigate("/asset/receive");
   };
 
-  const { addAsync } = useCRUD(AssetHandleApi);
+  const { addAsync } = useCRUD<unknown, AssetHandleData>(AssetHandleApi);
 
   const [loading, { setFalse: setLoadingFalse }] = useBoolean(true);
   const [dept, setDept] = useState<DeptData[]>();
@@ -83,16 +83,27 @@ const AssetReceiveHandlePage: FC = () => {
   const { createMessage } = useMessage();
   const chooseAsset = useRef<ForwardedRefState>(null);
   const handleSubmit = (data: AssetHandleData) => {
-    const list = chooseAsset.current?.getRowSelections();
-    if (!list?.length) {
+    const assets = chooseAsset.current?.getRowSelections();
+    if (!assets?.length) {
       createMessage.warning("请在表格中勾选要领用的资产！");
       return;
     }
+    const list: AssetHandleItem[] = assets.map(
+      ({ id, brand, model, name, remark, status, userId }) => ({
+        assetId: id!,
+        brand,
+        model,
+        name,
+        remark,
+        status,
+        userId,
+      })
+    );
     const submitData = { ...data, type, list };
     console.log(submitData);
     addAsync(submitData).then((res) => {
       if (res.code === 0) {
-        createMessage.success(res.msg);
+        goList();
       }
     });
   };
